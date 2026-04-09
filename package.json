@@ -1,0 +1,13 @@
+{
+  "name": "precision-architect",
+  "version": "1.0.0",
+  "description": "IT Asset Management System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "cd server && node app.js"
+  },
+  "dependencies": {
+    "sqlite3": "^6.0.1"
+  }
+}

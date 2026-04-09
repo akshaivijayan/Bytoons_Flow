@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | Bytoons Flow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#f7f9fb",
+              "surface-container-low": "#f2f4f6",
+              "surface-container-high": "#e6e8ea",
+              "on-background": "#191c1e",
+              "on-primary-container": "#ccdbff",
+              "on-secondary": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "secondary-fixed-dim": "#b4cad6",
+              "on-tertiary-container": "#9be6ff",
+              "on-secondary-fixed-variant": "#354a53",
+              "inverse-primary": "#adc7ff",
+              "tertiary-fixed": "#b3ebff",
+              "inverse-surface": "#2d3133",
+              "surface-variant": "#e0e3e5",
+              "surface-bright": "#f7f9fb",
+              "error-container": "#ffdad6",
+              "error": "#ba1a1a",
+              "on-primary": "#ffffff",
+              "primary-container": "#005cc3",
+              "secondary-fixed": "#cfe6f2",
+              "primary-fixed-dim": "#adc7ff",
+              "surface": "#f7f9fb",
+              "surface-container": "#eceef0",
+              "on-secondary-fixed": "#071e27",
+              "surface-tint": "#005bc0",
+              "surface-container-highest": "#e0e3e5",
+              "on-surface-variant": "#424752",
+              "primary-fixed": "#d8e2ff",
+              "secondary-container": "#cfe6f2",
+              "on-tertiary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-primary-fixed-variant": "#004493",
+              "outline": "#727783",
+              "tertiary-container": "#00697f",
+              "on-primary-fixed": "#001a41",
+              "primary": "#004596",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed": "#001f27",
+              "on-secondary-container": "#526772",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-fixed-variant": "#004e5f",
+              "tertiary-fixed-dim": "#4cd6fb",
+              "tertiary": "#004f61",
+              "outline-variant": "#c2c6d4",
+              "on-surface": "#191c1e",
+              "secondary": "#4c616c"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+      }
+      .primary-gradient {
+        background: linear-gradient(135deg, #004596 0%, #005cc3 100%);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-surface min-h-screen flex items-center justify-center overflow-hidden">
+<!-- Decorative Architectural Background Elements -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+<div class="absolute top-[-10%] right-[-5%] w-[40rem] h-[40rem] rounded-full bg-primary/5 blur-[120px]"></div>
+<div class="absolute bottom-[-10%] left-[-5%] w-[30rem] h-[30rem] rounded-full bg-tertiary/5 blur-[100px]"></div>
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] mix-blend-overlay"></div>
+</div>
+<!-- Main Content Canvas -->
+<main class="relative z-10 w-full max-w-screen-xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 items-center gap-12">
+<!-- Left Side: Branding & Value Prop -->
+<section class="hidden lg:flex lg:col-span-7 flex-col space-y-12 pr-12">
+<header class="flex items-center gap-3">
+<div class="w-12 h-12 primary-gradient rounded-xl flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-on-primary text-2xl" data-icon="architecture">architecture</span>
+</div>
+<h1 class="font-headline font-extrabold text-3xl text-primary tracking-tighter">Bytoons Flow</h1>
+</header>
+<div class="space-y-6">
+<h2 class="font-headline font-bold text-5xl text-on-surface leading-[1.1] tracking-tight">
+                    Manage your IT ecosystem with <span class="text-primary font-extrabold">surgical accuracy.</span>
+</h2>
+<p class="text-on-surface-variant text-lg max-w-md leading-relaxed">
+                    Transform complex asset lifecycles into streamlined workflows. The command center for the modern enterprise ecosystem.
+                </p>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="p-6 rounded-xl bg-surface-container-low space-y-2">
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="analytics">analytics</span>
+<h3 class="font-headline font-bold text-on-surface">Deep Insights</h3>
+<p class="text-sm text-on-surface-variant">Real-time asset utilization metrics and reporting.</p>
+</div>
+<div class="p-6 rounded-xl bg-surface-container-low space-y-2">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="security">security</span>
+<h3 class="font-headline font-bold text-on-surface">Secure Ledger</h3>
+<p class="text-sm text-on-surface-variant">Immutable audit logs for every hardware transition.</p>
+</div>
+</div>
+</section>
+<!-- Right Side: Login Card -->
+<section class="col-span-1 lg:col-span-5 flex justify-center lg:justify-end">
+<div class="w-full max-w-[440px] glass-card p-10 rounded-xl shadow-[0_12px_32px_-4px_rgba(25,28,30,0.06)] border border-white/20">
+<div class="lg:hidden mb-8 flex items-center gap-2">
+<div class="w-8 h-8 primary-gradient rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm" data-icon="architecture">architecture</span>
+</div>
+<span class="font-headline font-extrabold text-xl text-primary tracking-tighter">Bytoons Flow</span>
+</div>
+<div class="mb-10">
+<h2 class="font-headline font-bold text-2xl text-on-surface">Welcome Back</h2>
+<p class="text-on-surface-variant text-sm mt-1">Please enter your details to access the dashboard</p>
+</div>
+<form class="space-y-6">
+<div class="space-y-2">
+<label class="block font-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant" for="username">Username</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline text-[20px] group-focus-within:text-primary transition-colors" data-icon="person">person</span>
+</div>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-3.5 pl-11 pr-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all text-on-surface placeholder:text-outline/50" id="username" name="username" placeholder="e.g. j.bytoons" required="" type="text"/>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="block font-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant" for="password">Password</label>
+<a class="text-xs font-medium text-primary hover:underline transition-all" href="#">Forgot Password?</a>
+</div>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline text-[20px] group-focus-within:text-primary transition-colors" data-icon="lock">lock</span>
+</div>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-3.5 pl-11 pr-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all text-on-surface placeholder:text-outline/50" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<div class="flex items-center space-x-3 py-2">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/20 transition-all bg-surface-container-low" id="remember" type="checkbox"/>
+<label class="text-sm text-on-surface-variant font-medium cursor-pointer" for="remember">Stay logged in for 30 days</label>
+</div>
+<button class="w-full primary-gradient text-on-primary font-headline font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group" type="submit">
+<span>Login</span>
+<span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+<div class="mt-10 pt-8 border-t border-outline-variant/15 text-center">
+<p class="text-sm text-on-surface-variant">
+                        New to the platform? 
+                        <a class="text-primary font-bold hover:underline" href="#">Request access</a>
+</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Meta -->
+<footer class="fixed bottom-6 w-full text-center px-6">
+<p class="text-[10px] font-label uppercase tracking-[0.2em] text-outline/60">
+            © 2024 Azure Ledger Systems • High Integrity Asset Infrastructure
+        </p>
+</footer>
+</body></html>

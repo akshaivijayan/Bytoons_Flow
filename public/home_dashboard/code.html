@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bytoons Flow - Home Dashboard</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#f7f9fb",
+              "surface-container-low": "#f2f4f6",
+              "surface-container-high": "#e6e8ea",
+              "on-background": "#191c1e",
+              "on-primary-container": "#ccdbff",
+              "on-secondary": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "secondary-fixed-dim": "#b4cad6",
+              "on-tertiary-container": "#9be6ff",
+              "on-secondary-fixed-variant": "#354a53",
+              "inverse-primary": "#adc7ff",
+              "tertiary-fixed": "#b3ebff",
+              "inverse-surface": "#2d3133",
+              "surface-variant": "#e0e3e5",
+              "surface-bright": "#f7f9fb",
+              "error-container": "#ffdad6",
+              "error": "#ba1a1a",
+              "on-primary": "#ffffff",
+              "primary-container": "#005cc3",
+              "secondary-fixed": "#cfe6f2",
+              "primary-fixed-dim": "#adc7ff",
+              "surface": "#f7f9fb",
+              "surface-container": "#eceef0",
+              "on-secondary-fixed": "#071e27",
+              "surface-tint": "#005bc0",
+              "surface-container-highest": "#e0e3e5",
+              "on-surface-variant": "#424752",
+              "primary-fixed": "#d8e2ff",
+              "secondary-container": "#cfe6f2",
+              "on-tertiary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-primary-fixed-variant": "#004493",
+              "outline": "#727783",
+              "tertiary-container": "#00697f",
+              "on-primary-fixed": "#001a41",
+              "primary": "#004596",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed": "#001f27",
+              "on-secondary-container": "#526772",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-fixed-variant": "#004e5f",
+              "tertiary-fixed-dim": "#4cd6fb",
+              "tertiary": "#004f61",
+              "outline-variant": "#c2c6d4",
+              "on-surface": "#191c1e",
+              "secondary": "#4c616c"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #004596 0%, #005cc3 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f7f9fb] flex justify-between items-center px-6 py-4 w-full shadow-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#005FB8] text-2xl" data-icon="architecture">architecture</span>
+<h1 class="font-['Manrope'] font-extrabold text-[#005FB8] text-xl tracking-tighter">Bytoons Flow</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200/50 transition-colors active:scale-95 duration-200 text-slate-500">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200/50 transition-colors active:scale-95 duration-200 text-[#005FB8]">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 px-6 max-w-7xl mx-auto space-y-10">
+<!-- Hero Section: Welcome & High-Level Summary -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<div class="md:col-span-8 signature-gradient rounded-xl p-8 flex flex-col justify-between text-on-primary min-h-[240px] shadow-lg">
+<div>
+<h2 class="font-headline font-extrabold text-3xl tracking-tight mb-2">Systems Overview</h2>
+<p class="font-body opacity-90 text-sm max-w-md">Your infrastructure is operating within optimal parameters. 4 assets require attention.</p>
+</div>
+<div class="flex gap-4 mt-6">
+<button class="bg-surface-container-lowest text-primary px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-opacity-90 transition-all active:scale-95">
+                        Run Audit
+                    </button>
+<button class="bg-white/10 text-white border border-white/20 px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-white/20 transition-all active:scale-95">
+                        View Schedule
+                    </button>
+</div>
+</div>
+<div class="md:col-span-4 bg-surface-container-low rounded-xl p-6 flex flex-col justify-center items-center text-center">
+<div class="w-16 h-16 rounded-full bg-tertiary-fixed flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-tertiary-fixed text-3xl" data-icon="verified_user">verified_user</span>
+</div>
+<h3 class="font-headline font-bold text-lg text-on-surface">Compliance Score</h3>
+<div class="text-4xl font-headline font-extrabold text-primary mt-1">98.4%</div>
+<p class="font-label text-[10px] uppercase tracking-widest text-outline mt-2">Update due in 12 days</p>
+</div>
+</section>
+<!-- Key Metrics: Bento Grid Layout -->
+<section>
+<div class="flex items-end justify-between mb-6">
+<div>
+<span class="font-label text-[10px] uppercase tracking-widest text-outline font-bold">Vital Statistics</span>
+<h2 class="font-headline font-extrabold text-2xl tracking-tight">Infrastructure Pulse</h2>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-none group hover:bg-surface-container transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="inventory_2">inventory_2</span>
+<span class="font-label text-[10px] font-bold text-primary bg-primary-fixed px-2 py-0.5 rounded-full">+2.4%</span>
+</div>
+<div class="text-3xl font-headline font-extrabold">1,284</div>
+<div class="font-label text-[11px] text-outline uppercase tracking-wider mt-1">Total Assets</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-none group hover:bg-surface-container transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="badge">badge</span>
+</div>
+<div class="text-3xl font-headline font-extrabold">412</div>
+<div class="font-label text-[11px] text-outline uppercase tracking-wider mt-1">Active Employees</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-none group hover:bg-surface-container transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-error" data-icon="build">build</span>
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+</div>
+<div class="text-3xl font-headline font-extrabold">14</div>
+<div class="font-label text-[11px] text-outline uppercase tracking-wider mt-1">Maintenance</div>
+</div>
+<!-- Metric 4 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-none group hover:bg-surface-container transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-tertiary" data-icon="not_interested">not_interested</span>
+</div>
+<div class="text-3xl font-headline font-extrabold">82</div>
+<div class="font-label text-[11px] text-outline uppercase tracking-wider mt-1">Unassigned</div>
+</div>
+</div>
+</section>
+<!-- Activity and Quick Actions -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-10">
+<!-- Recent Activity List -->
+<div class="md:col-span-7 space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-xl tracking-tight">Recent Activity</h3>
+<button class="text-primary font-label text-xs font-bold uppercase tracking-wider">View All</button>
+</div>
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<div class="divide-y divide-outline-variant/10">
+<!-- Activity Item 1 -->
+<div class="flex items-center gap-4 p-5 bg-surface-container-lowest hover:bg-surface-container-high transition-colors">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-primary-fixed">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="assignment_return">assignment_return</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-on-surface">Asset #MBP-2024-01 returned</p>
+<p class="text-xs text-outline">Sarah Jenkins • Engineering</p>
+</div>
+<div class="text-[10px] font-medium text-outline-variant uppercase">2m ago</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex items-center gap-4 p-5 bg-surface-container-lowest hover:bg-surface-container-high transition-colors">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-tertiary-fixed">
+<span class="material-symbols-outlined text-tertiary text-xl" data-icon="person_add">person_add</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-on-surface">New Employee Onboarding</p>
+<p class="text-xs text-outline">David Chen • Marketing</p>
+</div>
+<div class="text-[10px] font-medium text-outline-variant uppercase">1h ago</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex items-center gap-4 p-5 bg-surface-container-lowest hover:bg-surface-container-high transition-colors">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-secondary-fixed">
+<span class="material-symbols-outlined text-secondary text-xl" data-icon="sync">sync</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-on-surface">Software Patch Applied</p>
+<p class="text-xs text-outline">All Workstations • Fleet A</p>
+</div>
+<div class="text-[10px] font-medium text-outline-variant uppercase">4h ago</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Actions Section -->
+<div class="md:col-span-5 space-y-6">
+<h3 class="font-headline font-bold text-xl tracking-tight">Quick Actions</h3>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-xl gap-3 hover:bg-primary hover:text-white transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:text-white text-3xl" data-icon="add_circle">add_circle</span>
+<span class="font-label text-xs font-bold uppercase tracking-wide">Add Asset</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-xl gap-3 hover:bg-primary hover:text-white transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:text-white text-3xl" data-icon="person_search">person_search</span>
+<span class="font-label text-xs font-bold uppercase tracking-wide">Assign</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-xl gap-3 hover:bg-primary hover:text-white transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:text-white text-3xl" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="font-label text-xs font-bold uppercase tracking-wide">Scan Label</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-xl gap-3 hover:bg-primary hover:text-white transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:text-white text-3xl" data-icon="summarize">summarize</span>
+<span class="font-label text-xs font-bold uppercase tracking-wide">Reports</span>
+</button>
+</div>
+<!-- Featured Card -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-high p-6 group cursor-pointer">
+<div class="relative z-10">
+<h4 class="font-headline font-bold text-on-surface-variant">Fleet Mapping</h4>
+<p class="text-xs text-outline-variant mt-1">Visualize geographical distribution</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-9xl" data-icon="map">map</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md z-50 rounded-t-xl shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-[#005FB8]/10 dark:bg-blue-900/30 text-[#005FB8] dark:text-blue-300 rounded-full px-4 py-1 transition-all cubic-bezier(0.4,0,0.2,1) duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-0.5">Home</span>
+</a>
+<!-- Employees -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all cubic-bezier(0.4,0,0.2,1) duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-0.5">Employees</span>
+</a>
+<!-- Assets -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all cubic-bezier(0.4,0,0.2,1) duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-0.5">Assets</span>
+</a>
+<!-- Mapping -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all cubic-bezier(0.4,0,0.2,1) duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-0.5">Mapping</span>
+</a>
+<!-- Reports -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all cubic-bezier(0.4,0,0.2,1) duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-0.5">Reports</span>
+</a>
+</nav>
+<!-- Floating Action Button (FAB) - Contextual for Dashboard -->
+<button class="fixed bottom-24 right-6 w-14 h-14 signature-gradient rounded-full flex items-center justify-center text-white shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-transform z-40">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</body></html>

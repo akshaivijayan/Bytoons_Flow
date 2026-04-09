@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Intelligence | Bytoons Flow</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#004596',
+                        'primary-container': '#005cc3',
+                        'on-primary': '#ffffff',
+                        'background': '#f7f9fb',
+                        'surface-container-low': '#f2f4f6',
+                        'on-surface': '#191c1e',
+                        'tertiary': '#004f61',
+                        'outline': '#727783',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Local Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .nav-item.active {
+            background: rgba(0, 69, 150, 0.1);
+            color: var(--primary);
+        }
+        .chart-bar {
+            transition: width 1s ease-in-out;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen pb-32">
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-outline-variant/10 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-2xl">architecture</span>
+            <h1 class="text-xl text-primary font-extrabold tracking-tighter">Bytoons Flow</h1>
+        </div>
+        <button id="logout-btn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-error/10 transition-colors text-primary border border-primary/20">
+            <span class="material-symbols-outlined">logout</span>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-12 max-w-7xl mx-auto space-y-10 animate-fade-in">
+        <header class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="space-y-1">
+                <p class="text-[10px] uppercase tracking-widest text-primary font-bold font-label">Strategic Intelligence</p>
+                <h2 class="text-3xl font-extrabold tracking-tight">Analytical Reports</h2>
+            </div>
+        </header>
+
+        <!-- Report Configuration Suite -->
+        <section class="glass-card p-6 rounded-[32px] border border-outline-variant/10 grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div class="space-y-2">
+                <label for="report-type" class="text-[10px] font-black uppercase tracking-widest text-outline ml-1">Intelligence Domain</label>
+                <select id="report-type" class="w-full bg-surface-container-low border-none rounded-2xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer">
+                    <option value="inventory">Hardware Inventory Status</option>
+                    <option value="allocation">Active Personnel Allocations</option>
+                    <option value="lifecycle">Historical Asset Lifecycle</option>
+                    <option value="audit">Operational Change Audit Logs</option>
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label for="start-date" class="text-[10px] font-black uppercase tracking-widest text-outline ml-1">Temporal Start</label>
+                <input type="date" id="start-date" class="w-full bg-surface-container-low border-none rounded-2xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all"/>
+            </div>
+            <div class="space-y-2">
+                <label for="end-date" class="text-[10px] font-black uppercase tracking-widest text-outline ml-1">Temporal End</label>
+                <input type="date" id="end-date" class="w-full bg-surface-container-low border-none rounded-2xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all"/>
+            </div>
+            <div class="flex items-end gap-2">
+                <button id="generate-preview-btn" class="flex-1 bg-primary text-white py-3 rounded-2xl font-bold text-sm hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined text-sm">tab_search</span>
+                    Preview
+                </button>
+                <button id="export-csv-btn" class="flex-1 bg-white border border-primary/20 text-primary py-3 rounded-2xl font-bold text-sm hover:bg-primary/5 transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">download</span>
+                    Export CSV
+                </button>
+            </div>
+        </section>
+
+        <!-- Insights Bento -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Data Preview (Primary Focus) -->
+            <div class="lg:col-span-8 glass-card p-0 rounded-[32px] overflow-hidden border border-outline-variant/10 shadow-sm flex flex-col">
+                <div class="p-6 border-b border-outline-variant/10 bg-white/50 backdrop-blur-sm flex justify-between items-center">
+                    <h3 class="font-bold text-lg flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">visibility</span>
+                        Dataset Preview
+                    </h3>
+                    <span id="record-count" class="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black">-- Records</span>
+                </div>
+                <div class="overflow-x-auto overflow-y-auto max-h-[400px] custom-scrollbar">
+                    <table class="w-full text-left border-collapse">
+                        <thead id="preview-head" class="sticky top-0 bg-white z-10 border-b border-outline-variant/10">
+                            <!-- Headers dynamically injected -->
+                        </thead>
+                        <tbody id="preview-body" class="divide-y divide-outline-variant/5">
+                            <tr>
+                                <td colspan="10" class="py-20 text-center text-xs text-outline italic font-bold">
+                                    Configure selectors and click 'Preview' to load relational data
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Bytoons Flow - Client-Side Intelligence -->
+            <div class="lg:col-span-4 space-y-6">
+                <!-- Asset Distribution Card -->
+                <div class="glass-card p-6 rounded-[32px] border border-outline-variant/10 shadow-sm bg-white">
+                    <h3 class="font-bold text-sm mb-6 flex items-center gap-2 text-primary">
+                        <span class="material-symbols-outlined text-sm">pie_chart</span>
+                        FLEET DISTRIBUTION
+                    </h3>
+                    <div id="category-distribution" class="space-y-4">
+                        <!-- Loading or dynamic content -->
+                    </div>
+                </div>
+
+                <!-- Strategic Summary -->
+                <div class="signature-gradient p-6 rounded-[32px] text-white overflow-hidden relative shadow-xl">
+                    <span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl opacity-10">analytics</span>
+                    <div class="relative z-10 space-y-4">
+                        <h3 class="font-bold text-lg leading-tight">Bytoons Flow Intelligence Node</h3>
+                        <p class="text-[11px] opacity-80 leading-relaxed">Our advanced reporting engine provides verifiable audit trails for hardware lifecycle transitions across the entire organizational registry.</p>
+                        <div class="pt-2">
+                            <div class="text-[10px] uppercase font-black tracking-widest opacity-60">System Integrity</div>
+                            <div class="text-2xl font-black mt-1 uppercase">99.8% Sync</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Navigation -->
+    <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-8 pt-4 bg-white/90 backdrop-blur-xl border-t border-outline-variant/10 z-50 rounded-t-[32px] shadow-[0_-8px_32px_rgba(0,0,0,0.05)]">
+        <a href="home.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Home</span>
+        </a>
+        <a href="employees.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">badge</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Team</span>
+        </a>
+        <a href="assets.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">inventory_2</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Assets</span>
+        </a>
+        <a href="mapping.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">map</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Mapping</span>
+        </a>
+        <a href="reports.html" class="nav-item active flex flex-col items-center justify-center px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Reports</span>
+        </a>
+    </nav>
+
+    <script src="main.js"></script>
+    <script>
+        let currentReportData = [];
+
+        async function loadDashboardStats() {
+            try {
+                const stats = await PA.apiRequest('/stats');
+                renderDistribution(stats.categories, stats.totalAssets);
+            } catch (err) { console.error('Dashboard Stats Failed'); }
+        }
+
+        function renderDistribution(categories, total) {
+            const container = document.getElementById('category-distribution');
+            if (!categories) return;
+            container.innerHTML = Object.entries(categories).map(([cat, count]) => {
+                const percent = Math.round((count / total) * 100);
+                return `
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-[10px] font-black uppercase tracking-wider text-outline">
+                            <span>${cat}</span>
+                            <span>${percent}%</span>
+                        </div>
+                        <div class="h-2 bg-surface-container-low rounded-full overflow-hidden">
+                            <div class="h-full bg-primary chart-bar" style="width: ${percent}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // CSP Compliant Listeners
+        document.getElementById('generate-preview-btn').addEventListener('click', generatePreview);
+        document.getElementById('export-csv-btn').addEventListener('click', exportCSV);
+
+        async function generatePreview() {
+            const type = document.getElementById('report-type').value;
+            const start = document.getElementById('start-date').value;
+            const end = document.getElementById('end-date').value;
+            
+            const tbody = document.getElementById('preview-body');
+            tbody.innerHTML = '<tr><td colspan="10" class="py-20 text-center"><div class="animate-spin inline-block w-6 h-6 border-2 border-primary border-t-transparent rounded-full"></div></td></tr>';
+
+            try {
+                const query = `type=${type}${start ? `&startDate=${start}` : ''}${end ? `&endDate=${end}` : ''}`;
+                currentReportData = await PA.apiRequest(`/reports/data?${query}`);
+                
+                renderPreview(currentReportData);
+                document.getElementById('record-count').innerText = `${currentReportData.length} Records`;
+            } catch (err) {
+                console.error('Preview Generation Failed:', err);
+                tbody.innerHTML = '<tr><td colspan="10" class="py-20 text-center text-error font-bold text-xs uppercase tracking-widest">Dataset generation failed. Verify configuration.</td></tr>';
+            }
+        }
+
+        function renderPreview(data) {
+            const head = document.getElementById('preview-head');
+            const body = document.getElementById('preview-body');
+
+            if (data.length === 0) {
+                body.innerHTML = '<tr><td colspan="10" class="py-20 text-center text-xs text-outline font-bold italic">No records matching the temporal or domain criteria</td></tr>';
+                return;
+            }
+
+            // Extract Headers
+            const keys = Object.keys(data[0]);
+            head.innerHTML = `
+                <tr>
+                    ${keys.map(key => `<th class="py-4 px-6 text-[10px] uppercase tracking-widest text-outline font-black">${key}</th>`).join('')}
+                </tr>
+            `;
+
+            // Extract Rows (limit to 20 for preview)
+            body.innerHTML = data.slice(0, 20).map(row => `
+                <tr class="hover:bg-surface-container-low/30 transition-colors">
+                    ${keys.map(key => `<td class="py-3 px-6 text-xs text-on-surface truncate max-w-[200px]">${row[key] || '-'}</td>`).join('')}
+                </tr>
+            `).join('');
+            
+            if (data.length > 20) {
+                body.innerHTML += `<tr><td colspan="${keys.length}" class="py-4 text-center text-[10px] text-outline font-bold bg-surface-container-low/10 italic">... showing first 20 records. Export for full dataset.</td></tr>`;
+            }
+        }
+
+        async function exportCSV() {
+            const type = document.getElementById('report-type').value;
+            const start = document.getElementById('start-date').value;
+            const end = document.getElementById('end-date').value;
+            const query = `type=${type}${start ? `&startDate=${start}` : ''}${end ? `&endDate=${end}` : ''}`;
+            
+            try {
+                PA.showNotification('Preparing high-fidelity export...', 'info');
+                
+                // Fetch direct from server-side export engine
+                const response = await fetch(`${PA.API_BASE}/reports/export?${query}`, {
+                    headers: { 'x-auth-token': localStorage.getItem('token') || '' }
+                });
+
+                if (!response.ok) throw new Error('Server-side export failed');
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const date = new Date().toISOString().split('T')[0];
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `Precision_Export_${type}_${date}.csv`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                window.URL.revokeObjectURL(url);
+                PA.showNotification('Strategic data exported successfully', 'success');
+            } catch (err) {
+                console.error('Export Failed:', err);
+                PA.showNotification('Export synchronization failed. Verify platform connectivity.', 'error');
+            }
+        }
+
+        loadDashboardStats();
+    </script>
+</body>
+</html>

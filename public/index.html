@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Login | Bytoons Flow</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#005FB8',
+                        'primary-container': '#e0e2ec',
+                        'on-primary': '#ffffff',
+                        'error': '#ba1a1a',
+                        'surface-container-high': '#e6e8ea',
+                        'on-surface': '#191c1e',
+                        'outline-variant': '#c2c6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Local Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #f7f9fb;
+        }
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .glow-1 {
+            position: absolute;
+            top: -10%;
+            right: -5%;
+            width: 40rem;
+            height: 40rem;
+            border-radius: 9999px;
+            background: rgba(0, 69, 150, 0.05);
+            filter: blur(120px);
+        }
+        .glow-2 {
+            position: absolute;
+            bottom: -10%;
+            left: -5%;
+            width: 30rem;
+            height: 30rem;
+            border-radius: 9999px;
+            background: rgba(0, 79, 97, 0.05);
+            filter: blur(100px);
+        }
+    </style>
+</head>
+<body class="font-body text-on-surface">
+    <!-- Decorative Background -->
+    <div class="bg-glow">
+        <div class="glow-1"></div>
+        <div class="glow-2"></div>
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] mix-blend-overlay"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 w-full max-w-screen-xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 items-center gap-12 animate-fade-in">
+        <!-- Brand Side -->
+        <section class="hidden lg:flex lg:col-span-7 flex-col space-y-12 pr-12">
+            <header class="flex items-center gap-3">
+                <div class="w-12 h-12 primary-gradient rounded-xl flex items-center justify-center shadow-lg">
+                    <span class="material-symbols-outlined text-white text-2xl">architecture</span>
+                </div>
+                <h1 class="text-3xl text-primary tracking-tighter">Bytoons Flow</h1>
+            </header>
+            <div class="space-y-6">
+                <h2 class="text-5xl text-on-surface leading-[1.1] tracking-tight">
+                    Manage your IT ecosystem with <span class="text-primary font-extrabold">surgical accuracy.</span>
+                </h2>
+                <p class="text-on-surface-variant text-lg max-w-md leading-relaxed">
+                    Transform complex asset lifecycles into streamlined workflows. The command center for the modern enterprise ecosystem.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-6">
+                <div class="p-6 rounded-xl bg-surface-container-low space-y-2 glass-card">
+                    <span class="material-symbols-outlined text-tertiary text-3xl">analytics</span>
+                    <h3 class="text-on-surface">Deep Insights</h3>
+                    <p class="text-sm text-on-surface-variant">Real-time asset utilization metrics and reporting.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-surface-container-low space-y-2 glass-card">
+                    <span class="material-symbols-outlined text-primary text-3xl">security</span>
+                    <h3 class="text-on-surface">Secure Ledger</h3>
+                    <p class="text-sm text-on-surface-variant">Immutable audit logs for every hardware transition.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Side -->
+        <section class="col-span-1 lg:col-span-5 flex justify-center lg:justify-end">
+            <div class="w-full max-w-[440px] glass-card p-10 rounded-2xl shadow-xl">
+                <div class="lg:hidden mb-8 flex items-center gap-2">
+                    <div class="w-8 h-8 primary-gradient rounded flex items-center justify-center">
+                        <span class="material-symbols-outlined text-white text-sm">architecture</span>
+                    </div>
+                    <span class="text-xl text-primary font-extrabold tracking-tighter">Bytoons Flow</span>
+                </div>
+                <div class="mb-10">
+                    <h2 class="text-2xl text-on-surface">Welcome Back</h2>
+                    <p class="text-on-surface-variant text-sm mt-1">Access your infrastructure command center</p>
+                </div>
+                <form id="login-form" class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant" for="email">Email Address</label>
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <span class="material-symbols-outlined text-outline text-[20px] group-focus-within:text-primary transition-colors">mail</span>
+                            </div>
+                            <input class="w-full bg-surface-container-low border-none rounded-xl py-3.5 pl-11 pr-4 focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all text-on-surface placeholder:text-outline/50" id="email" name="email" placeholder="e.g. admin@bytoons.com" required type="email"/>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant" for="password">Password</label>
+                            <a class="text-xs font-medium text-primary hover:underline transition-all" href="#">Forgot?</a>
+                        </div>
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <span class="material-symbols-outlined text-outline text-[20px] group-focus-within:text-primary transition-colors">lock</span>
+                            </div>
+                            <input class="w-full bg-surface-container-low border-none rounded-xl py-3.5 pl-11 pr-4 focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all text-on-surface placeholder:text-outline/50" id="password" name="password" placeholder="••••••••" required type="password"/>
+                        </div>
+                    </div>
+                    <button class="w-full signature-gradient text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group" type="submit">
+                        <span>Sign In</span>
+                        <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </button>
+                </form>
+                <div class="mt-10 pt-8 border-t border-outline-variant/15 text-center">
+                    <p class="text-sm text-on-surface-variant">
+                        Professional Infrastructure Gateway
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="fixed bottom-6 w-full text-center px-6">
+        <p class="text-[10px] uppercase tracking-[0.2em] text-outline/60">
+            © 2024 Bytoons Flow Systems • Enterprise Asset Backbone
+        </p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const data = await PA.apiRequest('/auth/login', 'POST', { email, password });
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                window.location.href = 'home.html';
+            } catch (err) {
+                PA.showNotification(err.message, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

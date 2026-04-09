@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Dashboard | Bytoons Flow</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#004596',
+                        'primary-container': '#005cc3',
+                        'on-primary': '#ffffff',
+                        'background': '#f7f9fb',
+                        'surface-container-low': '#f2f4f6',
+                        'surface-container-high': '#e6e8ea',
+                        'surface-container-highest': '#e0e3e5',
+                        'on-surface': '#191c1e',
+                        'on-surface-variant': '#424752',
+                        'outline': '#727783',
+                        'outline-variant': '#c2c6d4',
+                        'tertiary': '#004f61',
+                        'tertiary-fixed': '#b3ebff',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Local Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .nav-item.active {
+            background: rgba(0, 69, 150, 0.1);
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen pb-32">
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-outline-variant/10 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-2xl">architecture</span>
+            <h1 class="text-xl text-primary font-extrabold tracking-tighter">Bytoons Flow</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors text-outline">
+                <span class="material-symbols-outlined">search</span>
+            </button>
+            <button id="logout-btn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-error/10 transition-colors text-primary border border-primary/20">
+                <span class="material-symbols-outlined">logout</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-12 max-w-7xl mx-auto space-y-10 animate-fade-in">
+        <!-- Hero Section -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div class="md:col-span-8 signature-gradient rounded-3xl p-8 flex flex-col justify-between text-white min-h-[280px] shadow-2xl shadow-primary/20 relative overflow-hidden">
+                <span class="material-symbols-outlined absolute -right-8 -bottom-8 text-[12rem] opacity-10">hub</span>
+                <div class="relative z-10">
+                    <p class="text-[10px] uppercase tracking-widest font-black opacity-80 mb-2">Command Center</p>
+                    <h2 class="text-4xl font-extrabold tracking-tight mb-4">Lifecycle Operations</h2>
+                    <p class="opacity-90 text-sm max-w-md leading-relaxed">Streamline your infrastructure management with automated onboarding and offboarding protocols.</p>
+                </div>
+                <div class="flex gap-4 mt-8 relative z-10">
+                    <button id="rapid-onboard-btn" class="bg-white text-primary px-8 py-4 rounded-2xl font-black text-sm hover:scale-105 transition-all shadow-xl flex items-center gap-2">
+                        <span class="material-symbols-outlined">person_add</span>
+                        Rapid Onboard
+                    </button>
+                    <button id="rapid-offboard-btn" class="bg-white/10 text-white border border-white/20 px-8 py-4 rounded-2xl font-black text-sm hover:bg-white/20 transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined">person_remove</span>
+                        Rapid Offboard
+                    </button>
+                </div>
+            </div>
+            <div class="md:col-span-4 glass-card rounded-3xl p-8 flex flex-col justify-center items-center text-center group hover:border-primary/30 transition-all">
+                <div class="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-primary text-4xl">verified_user</span>
+                </div>
+                <h3 class="text-sm font-bold text-outline uppercase tracking-widest mb-1">Infrastructure Health</h3>
+                <div id="compliance-score" class="text-5xl font-black text-primary tracking-tighter">98.4%</div>
+                <div class="mt-4 w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+                    <div class="bg-primary h-full" style="width: 98.4%"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Grid -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Distribution Charts -->
+            <div class="lg:col-span-8 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Asset Availability -->
+                    <div class="glass-card p-6 rounded-[32px] space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-sm font-black uppercase tracking-widest text-on-surface">Asset Fleet</h3>
+                            <span class="material-symbols-outlined text-primary">inventory_2</span>
+                        </div>
+                        <div id="asset-bars" class="space-y-3">
+                            <!-- Bars dynamic -->
+                            <div class="animate-pulse flex items-center gap-4">
+                                <div class="h-2 bg-surface-container-high rounded-full flex-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Team Pulse -->
+                    <div class="glass-card p-6 rounded-[32px] space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-sm font-black uppercase tracking-widest text-on-surface">Team Pulse</h3>
+                            <span class="material-symbols-outlined text-tertiary">groups</span>
+                        </div>
+                        <div id="dept-bars" class="space-y-3 font-bold">
+                             <!-- Bars dynamic -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Metrics -->
+            <div class="lg:col-span-4 grid grid-cols-1 gap-6">
+                <div class="glass-card p-6 rounded-[32px] flex items-center gap-5">
+                    <div class="w-14 h-14 bg-error/10 text-error rounded-2xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-3xl">build</span>
+                    </div>
+                    <div>
+                        <p id="stat-maintenance" class="text-3xl font-black">--</p>
+                        <p class="text-[10px] text-outline font-black uppercase tracking-widest">In Maintenance</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-[32px] flex items-center gap-5">
+                    <div class="w-14 h-14 bg-tertiary/10 text-tertiary rounded-2xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-3xl">assignment_ind</span>
+                    </div>
+                    <div>
+                        <p id="stat-unassigned" class="text-3xl font-black">--</p>
+                        <p class="text-[10px] text-outline font-black uppercase tracking-widest">Available Stock</p>
+                    </div>
+                </div>
+                <div id="stat-managers-card" class="glass-card p-6 rounded-[32px] flex items-center gap-5 cursor-pointer">
+                    <div class="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-3xl">manage_accounts</span>
+                    </div>
+                    <div>
+                        <p id="stat-managers" class="text-3xl font-black">--</p>
+                        <p class="text-[10px] text-outline font-black uppercase tracking-widest">Active Managers</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rapid Onboard Modal -->
+    <div id="onboard-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div id="onboard-overlay" class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-3xl bg-white rounded-[40px] shadow-2xl overflow-hidden animate-fade-in max-h-[90vh] flex flex-col">
+            <header class="p-8 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
+                <div>
+                    <h3 class="text-2xl font-black tracking-tight text-primary">Rapid Onboarding</h3>
+                    <p class="text-xs text-outline font-bold uppercase tracking-widest mt-1">Accelerated Lifecycle Activation</p>
+                </div>
+                <button id="close-onboard-btn" class="w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </header>
+            <form id="onboard-form" class="p-8 space-y-8 overflow-y-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <h4 class="text-xs font-black uppercase tracking-widest text-primary border-b border-primary/10 pb-2">Employee Identity</h4>
+                        <div class="space-y-4">
+                            <div class="space-y-1">
+                                <label for="onboard-name" class="block text-[10px] font-black uppercase tracking-widest text-outline">Full Name</label>
+                                <input type="text" id="onboard-name" class="w-full bg-surface-container-low border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-primary/20" placeholder="John Doe" required>
+                            </div>
+                            <div class="space-y-1">
+                                <label for="onboard-email" class="block text-[10px] font-black uppercase tracking-widest text-outline">Corporate Email</label>
+                                <input type="email" id="onboard-email" class="w-full bg-surface-container-low border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-primary/20" placeholder="j.doe@precision.com" required>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label for="onboard-id-mock" class="block text-[10px] font-black uppercase tracking-widest text-outline">Employee ID</label>
+                                    <input id="onboard-id-mock" type="text" class="w-full bg-surface-container-high border-none rounded-xl py-4 px-5 text-sm font-bold opacity-70" value="AUTO-GENERATED" readonly>
+                                </div>
+                                <div class="space-y-1">
+                                    <label for="onboard-phone" class="block text-[10px] font-black uppercase tracking-widest text-outline">Phone Number</label>
+                                    <input type="tel" id="onboard-phone" class="w-full bg-surface-container-low border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-primary/20" placeholder="+1 555-XXX-XXXX" required>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label for="onboard-dept" class="block text-[10px] font-black uppercase tracking-widest text-outline">Department</label>
+                                    <select id="onboard-dept" class="w-full bg-surface-container-low border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-primary/20"></select>
+                                </div>
+                                <div class="space-y-1">
+                                    <label for="onboard-manager" class="block text-[10px] font-black uppercase tracking-widest text-outline">Reporting Manager</label>
+                                    <select id="onboard-manager" class="w-full bg-surface-container-low border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-primary/20"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <h4 class="text-xs font-black uppercase tracking-widest text-primary border-b border-primary/10 pb-2">Equipments</h4>
+                        <div id="onboard-asset-selectors" class="space-y-4">
+                             <!-- Laptop Selector will be loaded here -->
+                             <p class="text-xs text-outline italic">Preparing hardware selection...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-6 flex gap-4">
+                    <button type="button" id="cancel-onboard-btn" class="flex-1 bg-surface-container-high text-on-surface font-black py-5 rounded-2xl border border-outline-variant/30 hover:bg-white transition-all">Cancel</button>
+                    <button type="submit" class="flex-[2] signature-gradient text-white font-black py-5 rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined">bolt</span>
+                        Execute Onboarding
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rapid Offboard Modal -->
+    <div id="offboard-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 text-left">
+        <div id="offboard-overlay" class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-xl bg-white rounded-[40px] shadow-2xl overflow-hidden animate-fade-in">
+            <header class="p-8 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
+                <div>
+                    <h3 class="text-2xl font-black tracking-tight text-error">Rapid Offboarding</h3>
+                    <p class="text-xs text-outline font-bold uppercase tracking-widest mt-1">Lifecycle Deactivation Protocol</p>
+                </div>
+                <button id="close-offboard-btn" class="w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </header>
+            <div class="p-8 space-y-6 max-h-[70vh] overflow-y-auto">
+                <div class="space-y-4">
+                    <p class="text-sm font-bold text-on-surface-variant leading-relaxed">Search for an active employee to initiate deactivation and asset reclamation.</p>
+                    <div class="relative">
+                        <input type="text" id="offboard-search" class="w-full bg-surface-container-low border-none rounded-xl py-4 pl-12 pr-5 focus:ring-2 focus:ring-error/20" placeholder="Search employee name...">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+                    </div>
+                </div>
+                
+                <div id="offboard-results" class="space-y-2">
+                    <!-- Results dynamic -->
+                </div>
+
+                <!-- Redesigned Confirmation Step -->
+                <div id="offboard-confirm-area" class="hidden animate-fade-in p-6 bg-surface-container-low rounded-[32px] border-2 border-primary/10 shadow-xl shadow-primary/5 space-y-6">
+                    <div class="flex justify-between items-center">
+                        <span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-tighter rounded-full">Step 2: Final Review</span>
+                        <div class="flex items-center gap-1 text-[10px] text-outline font-bold uppercase tracking-widest">
+                            <span class="w-1.5 h-1.5 rounded-full bg-outline/30"></span>
+                            Security Protocol Active
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-white border-2 border-primary/20 flex items-center justify-center text-primary shadow-sm flex-shrink-0">
+                            <span class="material-symbols-outlined text-3xl">shield_person</span>
+                        </div>
+                        <div>
+                            <p class="font-black text-on-surface text-xl tracking-tight leading-none mb-1">Lifecycle Deactivation</p>
+                            <p id="offboard-summary" class="text-xs font-bold text-on-surface-variant leading-relaxed"></p>
+                        </div>
+                    </div>
+
+                    <!-- Synchronized Buttons with Blue Border -->
+                    <div class="flex flex-col gap-3 pt-2">
+                        <button id="execute-offboard-btn" class="w-full bg-white text-black font-black py-5 rounded-2xl border-2 border-primary hover:bg-primary/5 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-3">
+                            <span class="material-symbols-outlined">person_remove</span>
+                            Confirm & Reclaim Assets
+                        </button>
+                        <button id="cancel-offboard-btn" class="w-full bg-white text-black font-black py-4 rounded-2xl border-2 border-primary/40 hover:border-primary/60 hover:bg-surface-container-high transition-all">
+                            Keep Active
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-8 pt-4 bg-white/90 backdrop-blur-xl border-t border-outline-variant/10 z-50 rounded-t-[32px] shadow-[0_-8px_32px_rgba(0,0,0,0.05)]">
+        <a href="home.html" class="nav-item active flex flex-col items-center justify-center px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Home</span>
+        </a>
+        <a href="employees.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">badge</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Team</span>
+        </a>
+        <a href="assets.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">inventory_2</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Assets</span>
+        </a>
+        <a href="mapping.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">map</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Mapping</span>
+        </a>
+        <a href="reports.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">analytics</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Reports</span>
+        </a>
+    </nav>
+
+    <script src="main.js"></script>
+    <script>
+        // Core Logic
+        async function loadDashboard() {
+            try {
+                const stats = await PA.apiRequest('/stats');
+                
+                // Update Numeric Stats
+                document.getElementById('stat-unassigned').innerText = stats.remainingAssets;
+                document.getElementById('stat-maintenance').innerText = stats.maintenanceCount;
+                document.getElementById('stat-managers').innerText = stats.totalManagers;
+
+                // Update Asset Bars
+                const assetBars = document.getElementById('asset-bars');
+                assetBars.innerHTML = Object.entries(stats.categories || {}).map(([cat, count]) => {
+                    const percentage = (count / (stats.totalAssets || 1)) * 100;
+                    return `
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[10px] font-black uppercase tracking-wider text-outline">
+                                <span>${cat}</span>
+                                <span>${count} Units</span>
+                            </div>
+                            <div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+                                <div class="bg-primary h-full rounded-full transition-all duration-1000" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // Update Department Pulse
+                const deptBars = document.getElementById('dept-bars');
+                deptBars.innerHTML = Object.entries(stats.departments || {}).map(([dept, count]) => {
+                    return `
+                        <div class="flex items-center justify-between p-3 bg-surface-container-low/50 rounded-xl">
+                            <span class="text-xs uppercase tracking-tight">${dept}</span>
+                            <span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px]">${count} Active</span>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (err) {
+                console.error('Failed to load dashboard data', err);
+            }
+        }
+
+        // Onboarding Workflow
+        const onboardModal = document.getElementById('onboard-modal');
+        const onboardForm = document.getElementById('onboard-form');
+        let availableAssets = {};
+
+        document.getElementById('rapid-onboard-btn').onclick = async () => {
+            onboardModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            // Prefetch dropdown data
+            try {
+                const [assets, depts, managers] = await Promise.all([
+                    PA.apiRequest('/employees/onboard/assets'),
+                    PA.apiRequest('/departments'),
+                    PA.apiRequest('/managers')
+                ]);
+                
+                availableAssets = assets;
+                
+                // Populate Selectors
+                document.getElementById('onboard-dept').innerHTML = depts.map(d => `<option value="${d.name}">${d.name}</option>`).join('');
+                
+                // Manager objects populate employeeId into the 'employee' property
+                document.getElementById('onboard-manager').innerHTML = managers.map(m => {
+                    const name = m.employee ? m.employee.name : (m.name || 'Unknown');
+                    return `<option value="${name}">${name}</option>`;
+                }).join('');
+                
+                const assetContainer = document.getElementById('onboard-asset-selectors');
+                assetContainer.innerHTML = Object.entries(assets)
+                    .map(([cat, list]) => `
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-primary font-bold">Select ${cat}</label>
+                        <select class="asset-selector w-full bg-surface-container-low border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-primary/20 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20fill%3D%27none%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20stroke%3D%27%236b7280%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%20stroke-width%3D%271.5%27%20d%3D%27m6%208%204%204%204-4%27%2F%3E%3C%2Fsvg%3E')] bg-[length:1.25rem_1.25rem] bg-[right_0.5rem_center] bg-no-repeat" required>
+                            <option value="" disabled selected>Please select a ${cat}...</option>
+                            ${list.map(a => `<option value="${a.id}">${a.assetName} (${a.assetId})</option>`).join('')}
+                        </select>
+                    </div>
+                `).join('');
+                
+                if (!assetContainer.innerHTML) {
+                    assetContainer.innerHTML = `<p class="text-xs text-error font-bold">No available hardware found in inventory.</p>`;
+                }
+                
+            } catch (err) {
+                PA.showNotification('Error prepping onboarding form', 'error');
+            }
+        };
+
+        function closeOnboardModal() {
+            onboardModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            onboardForm.reset();
+        }
+
+        // Attach Onboard close listeners
+        document.getElementById('close-onboard-btn').onclick = closeOnboardModal;
+        document.getElementById('onboard-overlay').onclick = closeOnboardModal;
+
+        onboardForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const selectedAssetIds = Array.from(document.querySelectorAll('.asset-selector'))
+                .map(s => s.value)
+                .filter(v => v !== '');
+
+            const payload = {
+                name: document.getElementById('onboard-name').value,
+                email: document.getElementById('onboard-email').value,
+                phone: document.getElementById('onboard-phone').value,
+                department: document.getElementById('onboard-dept').value,
+                manager: document.getElementById('onboard-manager').value,
+                selectedAssetIds
+            };
+
+            try {
+                await PA.apiRequest('/employees/onboard', 'POST', payload);
+                PA.showNotification('Onboarding successful. Assets deployed.', 'success');
+                closeOnboardModal();
+                loadDashboard();
+            } catch (err) {
+                PA.showNotification(err.message, 'error');
+            }
+        };
+
+        // Offboarding Workflow
+        const offboardModal = document.getElementById('offboard-modal');
+        const offboardSearch = document.getElementById('offboard-search');
+        const offboardResults = document.getElementById('offboard-results');
+        const offboardConfirm = document.getElementById('offboard-confirm-area');
+        let selectedOffboardEmp = null;
+
+        document.getElementById('rapid-offboard-btn').onclick = () => {
+            offboardModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            offboardSearch.focus();
+        };
+
+        function closeOffboardModal() {
+            offboardModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            offboardSearch.value = '';
+            offboardResults.innerHTML = '';
+            offboardConfirm.classList.add('hidden');
+            selectedOffboardEmp = null;
+        }
+
+        // Attach Offboard close listeners
+        document.getElementById('close-offboard-btn').onclick = closeOffboardModal;
+        document.getElementById('offboard-overlay').onclick = closeOffboardModal;;
+
+        let offboardSearchTimeout = null;
+        offboardSearch.oninput = async () => {
+            clearTimeout(offboardSearchTimeout);
+            const query = offboardSearch.value.trim().toLowerCase();
+            if (query.length < 2) {
+                offboardResults.innerHTML = '';
+                offboardConfirm.classList.add('hidden');
+                return;
+            }
+
+            offboardSearchTimeout = setTimeout(async () => {
+                offboardResults.innerHTML = '<p class="p-4 text-xs text-outline italic animate-pulse text-center">Searching registry...</p>';
+
+                try {
+                    const employees = await PA.apiRequest('/employees?status=ACTIVE');
+                    if (!Array.isArray(employees)) throw new Error('Invalid employee data');
+                    
+                    const filtered = employees.filter(e => 
+                        (e.name || '').toLowerCase().includes(query) ||
+                        (e.id || '').toLowerCase().includes(query)
+                    );
+                    
+                    if (filtered.length === 0) {
+                        offboardResults.innerHTML = `
+                            <div class="p-8 text-center bg-surface-container-low rounded-3xl border border-dashed border-outline-variant/30">
+                                <p class="text-xs font-bold text-outline">No active employees found matching "${query}"</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    offboardResults.innerHTML = filtered.map(e => {
+                        const assetCount = e.assignedAssets ? e.assignedAssets.length : 0;
+                        return `
+                            <div data-id="${e.id}" data-name="${(e.name || '').replace(/"/g, '&quot;')}" data-count="${assetCount}" class="offboard-candidate-item p-4 hover:bg-surface-container-low cursor-pointer rounded-2xl flex justify-between items-center bg-surface-container-low/30 transition-all border border-transparent hover:border-error/20 group">
+                                <div class="flex items-center gap-3 pointer-events-none">
+                                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-xs font-black text-primary">${e.name ? e.name[0] : '?'}</div>
+                                    <div>
+                                        <p class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">${e.name} <span class="text-[10px] text-outline ml-1 font-mono">(${e.id})</span></p>
+                                        <p class="text-[10px] text-outline font-bold uppercase tracking-widest">${e.department || 'General'} • ${assetCount} Assets</p>
+                                    </div>
+                                </div>
+                                <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors pointer-events-none">chevron_right</span>
+                            </div>
+                        `;
+                    }).join('');
+
+                } catch (err) {
+                    console.error('Offboard Search Error:', err);
+                    offboardResults.innerHTML = `<p class="p-4 text-xs text-error font-bold text-center">Search Failed: ${err.message}</p>`;
+                }
+            }, 300);
+        };
+
+        window.selectOffboardCandidate = async (id, name, assetCount) => {
+            selectedOffboardEmp = { id, name };
+            const reclaimMsg = assetCount > 0 
+                ? `Preparing to offboard ${name}. ${assetCount} assigned equipment will be reclaimed into Available Stock.`
+                : `${name} has no assigned assets. Proceeding with account deactivation.`;
+            
+            document.getElementById('offboard-summary').innerText = reclaimMsg;
+            offboardConfirm.classList.remove('hidden');
+            offboardResults.innerHTML = '';
+        };
+
+        // Attach CSP-compliant listeners
+        document.getElementById('cancel-onboard-btn').addEventListener('click', closeOnboardModal);
+        document.getElementById('cancel-offboard-btn').addEventListener('click', closeOffboardModal);
+        document.getElementById('stat-managers-card').addEventListener('click', () => window.location.href='managers.html');
+
+        // Event Delegation for Offboard Candidates
+        offboardResults.addEventListener('click', (e) => {
+            const item = e.target.closest('.offboard-candidate-item');
+            if (item) {
+                const id = item.getAttribute('data-id');
+                const name = item.getAttribute('data-name');
+                const count = parseInt(item.getAttribute('data-count'));
+                selectOffboardCandidate(id, name, count);
+            }
+        });
+
+        document.getElementById('execute-offboard-btn').onclick = async () => {
+            if (!selectedOffboardEmp) return;
+            try {
+                await PA.apiRequest(`/employees/${selectedOffboardEmp.id}/offboard`, 'POST');
+                PA.showNotification(`${selectedOffboardEmp.name} offboarded successfully.`, 'success');
+                closeOffboardModal();
+                loadDashboard();
+            } catch (err) {
+                PA.showNotification(err.message, 'error');
+            }
+        };
+
+        // Initialize
+        loadDashboard();
+    </script>
+</body>
+</html>

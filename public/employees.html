@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Employees | Bytoons Flow</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#004596',
+                        'primary-container': '#005cc3',
+                        'on-primary': '#ffffff',
+                        'background': '#f7f9fb',
+                        'surface-container-low': '#f2f4f6',
+                        'surface-container-high': '#e6e8ea',
+                        'surface-container-highest': '#e0e3e5',
+                        'on-surface': '#191c1e',
+                        'on-surface-variant': '#424752',
+                        'outline': '#727783',
+                        'outline-variant': '#c2c6d4',
+                        'tertiary': '#004f61',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Local Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .nav-item.active {
+            background: rgba(0, 69, 150, 0.1);
+            color: var(--primary);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
+        }
+        thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: white !important;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen pb-32">
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-outline-variant/10 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-2xl">architecture</span>
+            <h1 class="text-xl text-primary font-extrabold tracking-tighter">Bytoons Flow</h1>
+        </div>
+        <div class="flex items-center gap-4">
+
+            <button id="logout-btn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-error/10 transition-colors text-primary border border-primary/20">
+                <span class="material-symbols-outlined">logout</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-12 max-w-7xl mx-auto space-y-8 animate-fade-in">
+        <header class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="space-y-1">
+                <p class="text-[10px] uppercase tracking-widest text-primary font-bold font-label">Team Infrastructure</p>
+                <h2 class="text-3xl font-extrabold tracking-tight">Enterprise Directory</h2>
+            </div>
+            <div class="flex gap-3">
+                <button id="managers-registry-btn" class="bg-surface-container-high text-on-surface px-6 py-3 rounded-2xl font-bold text-sm border border-outline-variant/30 hover:bg-white transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">manage_accounts</span>
+                    Managers Registry
+                </button>
+                <button class="signature-gradient text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-xl shadow-primary/20 flex items-center gap-2 hover:scale-105 transition-all">
+                    <span class="material-symbols-outlined">person_add</span>
+                    Onboard Employee
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-card p-6 rounded-2xl border-l-4 border-primary">
+                <h4 class="text-outline text-xs uppercase font-bold tracking-widest">Total Staff</h4>
+                <div id="stat-total-staff" class="text-3xl font-black mt-2">--</div>
+                <div class="text-[10px] text-primary font-bold mt-1">Active Personnel Registry</div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border-l-4 border-tertiary">
+                <h4 class="text-outline text-xs uppercase font-bold tracking-widest">Fully Equipped</h4>
+                <div id="stat-equipped-staff" class="text-3xl font-black mt-2">--</div>
+                <div id="stat-coverage-percent" class="text-[10px] text-tertiary font-bold mt-1">--% Asset Coverage</div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border-l-4 border-error">
+                <h4 class="text-outline text-xs uppercase font-bold tracking-widest">Pending Access</h4>
+                <div id="stat-pending-staff" class="text-3xl font-black mt-2">--</div>
+                <div class="text-[10px] text-error font-bold mt-1">Requires immediate attention</div>
+            </div>
+        </div>
+        
+        <!-- Filters & Search -->
+        <section class="glass-card p-4 rounded-2xl flex flex-col lg:flex-row gap-4 items-center">
+            <div class="relative flex-1 w-full">
+                <input id="search-input" class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-11 pr-4 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Search by name or email..." type="text"/>
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full lg:w-auto">
+                <select id="filter-dept" class="bg-surface-container-low border-none rounded-xl py-3 pl-4 pr-10 text-sm focus:ring-2 focus:ring-primary/20">
+                    <option value="">All Departments</option>
+                </select>
+                <select id="filter-manager" class="bg-surface-container-low border-none rounded-xl py-3 pl-4 pr-10 text-sm focus:ring-2 focus:ring-primary/20">
+                    <option value="">All Managers</option>
+                </select>
+                <select id="filter-status" class="bg-surface-container-low border-none rounded-xl py-3 pl-4 pr-10 text-sm focus:ring-2 focus:ring-primary/20">
+                    <option value="">All Statuses</option>
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="INACTIVE">INACTIVE</option>
+                </select>
+                <select id="sort-by" class="bg-surface-container-low border-none rounded-xl py-3 pl-4 pr-10 text-sm focus:ring-2 focus:ring-primary/20">
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="dept">Department</option>
+                    <option value="status">Status</option>
+                </select>
+            </div>
+        </section>
+
+
+        <!-- Employee Table Container -->
+        <div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/10 shadow-sm">
+            <div class="overflow-x-auto overflow-y-auto max-h-[60vh] custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-surface-container-low/50">
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">ID</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Name</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Email</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Phone</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Department</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Reporting Manager</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Equipments</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Status</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employee-table-body" class="divide-y divide-outline-variant/10">
+                        <!-- Dynamic Content will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination-info" class="bg-surface-container-low/50 px-6 py-4 flex justify-between items-center ">
+                <span class="text-xs text-outline font-medium">Loading organization data...</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Overlay -->
+    <div id="employee-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div id="emp-overlay" class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-2xl bg-white rounded-[32px] shadow-2xl overflow-hidden animate-fade-in">
+            <header class="p-8 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
+                <div>
+                    <h3 id="modal-title" class="text-2xl font-black tracking-tight">Onboard Employee</h3>
+                    <p class="text-xs text-outline font-bold uppercase tracking-widest mt-1">Resource Management Detail</p>
+                </div>
+                <button id="close-emp-btn" class="w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </header>
+            <form id="employee-form" class="p-8 space-y-6 max-h-[70vh] overflow-y-auto">
+                <input type="hidden" id="emp-id">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Full Name</label>
+                        <input type="text" id="emp-name" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" placeholder="e.g. Samuel Thorne" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Email Address</label>
+                        <input type="email" id="emp-email" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" placeholder="s.thorne@precision.com" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Phone Number</label>
+                        <input type="tel" id="emp-phone" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" placeholder="+1 555-XXX-XXXX" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Department</label>
+                        <select id="emp-dept" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20">
+                            <option>Engineering</option>
+                            <option>Design</option>
+                            <option>Operations</option>
+                            <option>Legal</option>
+                            <option>Management</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Reporting Manager</label>
+                        <select id="emp-manager" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20">
+                            <option value="">Select Manager</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Status</label>
+                        <select id="emp-status" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20">
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pt-6 flex gap-3">
+                    <button id="cancel-emp-btn" type="button" class="flex-1 bg-surface-container-high text-on-surface font-bold py-4 rounded-2xl border border-outline-variant/30 hover:bg-white transition-all">Cancel</button>
+                    <button type="submit" class="flex-[2] signature-gradient text-white font-bold py-4 rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-8 pt-4 bg-white/90 backdrop-blur-xl border-t border-outline-variant/10 z-50 rounded-t-[32px] shadow-[0_-8px_32px_rgba(0,0,0,0.05)]">
+        <a href="home.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Home</span>
+        </a>
+        <a href="employees.html" class="nav-item active flex flex-col items-center justify-center px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">badge</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Team</span>
+        </a>
+        <a href="assets.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">inventory_2</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Assets</span>
+        </a>
+        <a href="mapping.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">map</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Mapping</span>
+        </a>
+        <a href="reports.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">analytics</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Reports</span>
+        </a>
+    </nav>
+
+    <script src="main.js"></script>
+    <script>
+        const modal = document.getElementById('employee-modal');
+        const form = document.getElementById('employee-form');
+        const modalTitle = document.getElementById('modal-title');
+        const tableBody = document.getElementById('employee-table-body');
+        const paginationInfo = document.getElementById('pagination-info');
+
+        let allEmployees = [];
+        let allManagers = [];
+        let currentFilters = {
+            search: '',
+            dept: '',
+            manager: '',
+            status: '',
+            sort: 'name-asc'
+        };
+
+        // Onboard Button handle
+        document.querySelector('button.signature-gradient').addEventListener('click', () => {
+            openModal('Onboard Employee');
+        });
+
+        // Filter / Sort Event Listeners
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            currentFilters.search = e.target.value.toLowerCase();
+            applyFilters();
+        });
+        document.getElementById('filter-dept').addEventListener('change', (e) => {
+            currentFilters.dept = e.target.value;
+            applyFilters();
+        });
+        document.getElementById('filter-manager').addEventListener('change', (e) => {
+            currentFilters.manager = e.target.value;
+            applyFilters();
+        });
+        document.getElementById('filter-status').addEventListener('change', (e) => {
+            currentFilters.status = e.target.value;
+            applyFilters();
+        });
+        document.getElementById('sort-by').addEventListener('change', (e) => {
+            currentFilters.sort = e.target.value;
+            applyFilters();
+        });
+
+        async function loadEmployees() {
+            // Load Employees (Primary)
+            try {
+                const employees = await PA.apiRequest('/employees');
+                allEmployees = employees;
+                setupFilters(employees);
+                applyFilters();
+
+                // Load Statistics (Supplemental) - Failure here won't block the list
+                try {
+                    const stats = await PA.apiRequest('/stats');
+                    updateStaffStats(employees, stats);
+                } catch (statsErr) {
+                    console.warn('Statistics fetch failed, using basic counts:', statsErr);
+                    updateStaffStats(employees, null);
+                }
+
+                // Load Managers for dropdown
+                loadManagers();
+            } catch (err) {
+                console.error('Critical Error: Failed to load core personnel directory.', err);
+                PA.showNotification('Failed to load employee list', 'error');
+            }
+        }
+
+        function setupFilters(employees) {
+            const depts = [...new Set(employees.map(e => e.department).filter(Boolean))].sort();
+            const managers = [...new Set(employees.map(e => e.manager).filter(Boolean))].sort();
+
+            const deptSelect = document.getElementById('filter-dept');
+            const managerSelect = document.getElementById('filter-manager');
+
+            // Reset but keep first option
+            deptSelect.innerHTML = '<option value="">All Departments</option>';
+            managerSelect.innerHTML = '<option value="">All Managers</option>';
+
+            depts.forEach(d => deptSelect.innerHTML += `<option value="${d}">${d}</option>`);
+            managers.forEach(m => managerSelect.innerHTML += `<option value="${m}">${m}</option>`);
+        }
+
+        async function loadManagers() {
+            try {
+                const managers = await PA.apiRequest('/managers');
+                allManagers = managers;
+                const managerDropdown = document.getElementById('emp-manager');
+                const filterManager = document.getElementById('filter-manager');
+                
+                managerDropdown.innerHTML = '<option value="">Select Manager</option>';
+                managers.forEach(m => {
+                    const name = m.employee ? m.employee.name : 'Unknown';
+                    managerDropdown.innerHTML += `<option value="${name}">${name}</option>`;
+                });
+                
+                // Also update the filter if needed, though setupFilters already does it from employee data
+                // For better consistency, we could source filter from allManagers too
+            } catch (err) {
+                console.error('Failed to load managers:', err);
+            }
+        }
+
+        function applyFilters() {
+            let filtered = allEmployees.filter(emp => {
+                const matchesSearch = !currentFilters.search || 
+                    emp.name.toLowerCase().includes(currentFilters.search) || 
+                    emp.email.toLowerCase().includes(currentFilters.search);
+                
+                const matchesDept = !currentFilters.dept || emp.department === currentFilters.dept;
+                const matchesManager = !currentFilters.manager || emp.manager === currentFilters.manager;
+                const matchesStatus = !currentFilters.status || emp.status === currentFilters.status;
+
+                return matchesSearch && matchesDept && matchesManager && matchesStatus;
+            });
+
+            // Apply Sort
+            filtered.sort((a, b) => {
+                switch(currentFilters.sort) {
+                    case 'name-asc': return a.name.localeCompare(b.name);
+                    case 'name-desc': return b.name.localeCompare(a.name);
+                    case 'dept': return (a.department || '').localeCompare(b.department || '');
+                    case 'status': return (a.status || '').localeCompare(b.status || '');
+                    default: return 0;
+                }
+            });
+
+            renderEmployees(filtered);
+        }
+
+
+        function updateStaffStats(employees, globalStats) {
+            const equippedCount = employees.filter(e => (e.assignedAssets || []).length > 0).length;
+            const total = employees.length;
+            const pending = employees.filter(e => (e.assignedAssets || []).length === 0).length;
+            const percent = total > 0 ? Math.round((equippedCount / total) * 100) : 0;
+
+            const safeSet = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = val;
+            };
+
+            safeSet('stat-total-staff', total);
+            safeSet('stat-equipped-staff', equippedCount);
+            safeSet('stat-coverage-percent', `${percent}% Asset Coverage`);
+            safeSet('stat-pending-staff', pending);
+        }
+
+        function renderEmployees(employees) {
+            tableBody.innerHTML = employees.map(emp => `
+                <tr class="hover:bg-surface-container-low/30 transition-colors group">
+                    <td class="py-4 px-6 text-xs font-black text-primary">${emp._id}</td>
+                    <td class="py-4 px-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
+                                ${emp.name.split(' ').map(n=>n[0]).join('')}
+                            </div>
+                            <div class="font-bold text-sm">${emp.name}</div>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6 text-sm text-outline">${emp.email}</td>
+                    <td class="py-4 px-6 text-sm text-outline">${emp.phone || '--'}</td>
+                    <td class="py-4 px-6 text-sm">${emp.department || '--'}</td>
+                    <td class="py-4 px-6">
+                        <span class="text-sm font-medium text-outline">${emp.manager || 'No Manager'}</span>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex gap-1.5">
+                            ${(emp.assignedAssets && emp.assignedAssets.length > 0)
+                                ? emp.assignedAssets.map(asset => `
+                                    <span class="material-symbols-outlined text-primary text-lg" title="${asset.assetName}">
+                                        ${getCategoryIcon(asset.assetCategory)}
+                                    </span>
+                                `).join('')
+                                : '<span class="text-[10px] text-error font-black uppercase">Unassigned</span>'}
+                        </div>
+                    </td>
+                    <td class="py-4 px-6">
+                        ${emp.status === 'ACTIVE'
+                            ? '<span class="bg-primary/10 text-primary text-[10px] font-black px-2 py-1 rounded-full uppercase">' + emp.status + '</span>'
+                            : '<span class="bg-error/10 text-error text-[10px] font-black px-2 py-1 rounded-full uppercase">' + emp.status + '</span>'}
+                    </td>
+                    <td class="py-4 px-6 text-right">
+                        <div class="flex justify-end gap-2">
+                            <button data-id="${emp.id || emp._id}" data-action="edit" class="emp-action-btn p-2 rounded-lg hover:bg-primary/5 text-primary transition-colors" title="Edit">
+                                <span class="material-symbols-outlined text-lg pointer-events-none">edit</span>
+                            </button>
+                            <button data-id="${emp.id || emp._id}" data-action="delete" class="emp-action-btn p-2 rounded-lg hover:bg-error/5 text-error transition-colors" title="Delete">
+                                <span class="material-symbols-outlined text-lg pointer-events-none">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            paginationInfo.innerHTML = `<span class="text-xs text-outline font-medium">Showing ${employees.length} personnel records</span>`;
+        }
+
+        function getCategoryIcon(cat) {
+            switch(cat) {
+                case 'LAPTOP': return 'laptop_mac';
+                case 'MOBILE': return 'smartphone';
+                case 'NETWORK': return 'hub';
+                default: return 'inventory_2';
+            }
+        }
+
+        window.editEmployee = (id) => {
+            // Robust lookup with string casting to handle ID type variations
+            const emp = allEmployees.find(e => String(e._id || e.id) === String(id));
+            if (!emp) {
+                console.warn('Employee not found for ID:', id);
+                return;
+            }
+
+            document.getElementById('emp-id').value = emp.id || emp._id;
+            document.getElementById('emp-name').value = emp.name;
+            document.getElementById('emp-email').value = emp.email;
+            document.getElementById('emp-phone').value = emp.phone || '';
+            document.getElementById('emp-dept').value = emp.department || 'Engineering';
+            document.getElementById('emp-manager').value = emp.manager || '';
+            document.getElementById('emp-status').value = emp.status || 'ACTIVE';
+            
+            openModal('Edit Employee Details');
+        };
+
+        window.deleteEmployee = async (id) => {
+            console.log('DELETE EMPLOYEE CLICKED:', id);
+            const confirmed = await PA.confirm('Are you sure you want to remove this employee record?');
+            if (!confirmed) return;
+            try {
+                const res = await PA.apiRequest(`/employees/${id}`, 'DELETE');
+                console.log('DELETE EMPLOYEE RESPONSE:', res);
+                PA.showNotification('Employee removed successfully', 'success');
+                loadEmployees();
+            } catch (err) {
+                console.error('DELETE EMPLOYEE ERROR:', err);
+                PA.showNotification(err.message, 'error');
+            }
+        };
+
+        // Managers Registry Navigation
+        document.getElementById('managers-registry-btn').addEventListener('click', () => {
+            window.location.href = 'managers.html';
+        });
+
+        function openModal(title) {
+            modalTitle.innerText = title;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            form.reset();
+            document.getElementById('emp-id').value = '';
+        }
+        document.getElementById('close-emp-btn').addEventListener('click', closeModal);
+        document.getElementById('emp-overlay').addEventListener('click', closeModal);
+        document.getElementById('cancel-emp-btn').addEventListener('click', closeModal);
+
+        // Event Delegation for Table Actions
+        tableBody.addEventListener('click', (e) => {
+            const btn = e.target.closest('.emp-action-btn');
+            if (btn) {
+                const id = btn.getAttribute('data-id');
+                const action = btn.getAttribute('data-action');
+                if (action === 'edit') editEmployee(id);
+                if (action === 'delete') deleteEmployee(id);
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('emp-id').value;
+            const payload = {
+                name: document.getElementById('emp-name').value,
+                email: document.getElementById('emp-email').value,
+                phone: document.getElementById('emp-phone').value,
+                department: document.getElementById('emp-dept').value,
+                manager: document.getElementById('emp-manager').value,
+                status: document.getElementById('emp-status').value
+            };
+
+            try {
+                if (id) {
+                    await PA.apiRequest(`/employees/${id}`, 'PUT', payload);
+                    PA.showNotification('Employee updated successfully', 'success');
+                } else {
+                    await PA.apiRequest('/employees', 'POST', payload);
+                    PA.showNotification('Employee onboarded successfully', 'success');
+                }
+                closeModal();
+                loadEmployees();
+            } catch (err) {
+                PA.showNotification(err.message, 'error');
+            }
+        });
+
+        loadEmployees();
+    </script>
+</body>
+</html>

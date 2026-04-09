@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Assets | Bytoons Flow</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#004596',
+                        'primary-container': '#005cc3',
+                        'on-primary': '#ffffff',
+                        'background': '#f7f9fb',
+                        'surface-container-low': '#f2f4f6',
+                        'surface-container-high': '#e6e8ea',
+                        'surface-container-highest': '#e0e3e5',
+                        'on-surface': '#191c1e',
+                        'on-surface-variant': '#424752',
+                        'outline': '#727783',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Local Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .nav-item.active {
+            background: rgba(0, 69, 150, 0.1);
+            color: var(--primary);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
+        }
+        thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: white !important;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen pb-32">
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-outline-variant/10 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-2xl">architecture</span>
+            <h1 class="text-xl text-primary font-extrabold tracking-tighter">Bytoons Flow</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button id="logout-btn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-error/10 transition-colors text-primary border border-primary/20">
+                <span class="material-symbols-outlined">logout</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-12 max-w-7xl mx-auto space-y-8 animate-fade-in">
+        <header class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="space-y-1">
+                <p class="text-[10px] uppercase tracking-widest text-primary font-bold font-label">Inventory Control</p>
+                <h2 class="text-3xl font-extrabold tracking-tight">System Assets</h2>
+            </div>
+            <div class="flex gap-3">
+                <button id="ingest-asset-btn" class="signature-gradient text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-xl shadow-primary/20 flex items-center gap-2 hover:scale-105 transition-all">
+                    <span class="material-symbols-outlined">add</span>
+                    Ingest Asset
+                </button>
+            </div>
+        </header>
+
+        <!-- Summary Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-card p-6 rounded-[32px] border-l-4 border-primary">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-2xl">inventory_2</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-outline font-black uppercase tracking-widest">Total Assets</p>
+                        <p id="stat-total-assets" class="text-2xl font-black">--</p>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-[32px] border-l-4 border-tertiary">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-tertiary/10 rounded-2xl flex items-center justify-center text-tertiary">
+                        <span class="material-symbols-outlined text-2xl">link</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-outline font-black uppercase tracking-widest">Total Equipped</p>
+                        <p id="stat-equipped-assets" class="text-2xl font-black">--</p>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-[32px] border-l-4 border-error">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-error/10 rounded-2xl flex items-center justify-center text-error">
+                        <span class="material-symbols-outlined text-2xl">warehouse</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-outline font-black uppercase tracking-widest">Total Remaining</p>
+                        <p id="stat-remaining-assets" class="text-2xl font-black">--</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters & Search -->
+        <section class="glass-card p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center">
+            <div class="relative flex-1 w-full">
+                <input id="asset-search" class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-11 pr-4 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Search by Serial Number, Model, or Tag..." type="text"/>
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+            </div>
+            <div class="flex gap-2 w-full md:w-auto">
+                <select id="filter-category" class="bg-surface-container-low border-none rounded-xl py-3 pl-4 pr-10 text-sm focus:ring-2 focus:ring-primary/20 flex-1">
+                    <option value="">All Categories</option>
+                    <option>LAPTOP</option>
+                    <option>MOBILE</option>
+                    <option>NETWORK</option>
+                    <option>PERIPHERAL</option>
+                </select>
+                <select id="filter-status" class="bg-surface-container-low border-none rounded-xl py-3 pl-4 pr-10 text-sm focus:ring-2 focus:ring-primary/20 flex-1">
+                    <option value="">All Statuses</option>
+                    <option>IN USE</option>
+                    <option>AVAILABLE</option>
+                    <option>MAINTENANCE</option>
+                    <option>RETIRED</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Assets Table Container -->
+        <div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/10 shadow-sm">
+            <div class="overflow-x-auto overflow-y-auto max-h-[60vh] custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-surface-container-low/50">
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Asset ID</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Serial Number</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Asset Name</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Category</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Status</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Assigned To</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Check Out</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Brand</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Model</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="asset-table-body" class="divide-y divide-outline-variant/10">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination-info" class="bg-surface-container-low/50 px-6 py-4 flex justify-between items-center ">
+                <span class="text-xs text-outline font-medium">Loading inventory data...</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Asset Modal -->
+    <div id="asset-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div id="asset-overlay" class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-2xl max-h-[90vh] bg-white rounded-[32px] shadow-2xl overflow-hidden animate-fade-in flex flex-col">
+            <header class="p-8 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30 shrink-0">
+                <div>
+                    <h3 id="asset-modal-title" class="text-2xl font-black tracking-tight">Ingest New Asset</h3>
+                    <p class="text-xs text-outline font-bold uppercase tracking-widest mt-1">Lifecycle Tracking Registry</p>
+                </div>
+                <button id="close-asset-btn" class="w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </header>
+            <form id="asset-form" class="p-8 space-y-6 overflow-y-auto custom-scrollbar flex-1">
+                <input type="hidden" id="asset-database-id">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Asset ID</label>
+                        <input type="text" id="asset-id" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" placeholder="Auto-generated (e.g. LAP-00001)">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Serial Number</label>
+                        <input type="text" id="asset-serial" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" placeholder="SN: XXXXXXXX" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Asset Name</label>
+                        <input type="text" id="asset-name" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" placeholder="e.g. MacBook Pro 16" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Asset Category</label>
+                        <select id="asset-category" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20">
+                            <option>LAPTOP</option>
+                            <option>MOBILE</option>
+                            <option>NETWORK</option>
+                            <option>PERIPHERAL</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Brand</label>
+                        <input type="text" id="asset-brand" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" placeholder="e.g. Apple, Dell, Cisco">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Model</label>
+                        <input type="text" id="asset-model" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" placeholder="e.g. Latitude 5420">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Status</label>
+                        <select id="asset-status" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20">
+                            <option>AVAILABLE</option>
+                            <option>IN USE</option>
+                            <option>MAINTENANCE</option>
+                            <option>RETIRED</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Assigned To (Employee ID)</label>
+                        <input type="text" id="asset-assigned" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" placeholder="Mongo ObjectID or leave blank">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Check Out Date</label>
+                        <input type="date" id="asset-checkout" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20">
+                    </div>
+                </div>
+                <div class="pt-6 flex gap-3">
+                    <button id="cancel-asset-btn" type="button" class="flex-1 bg-surface-container-high text-on-surface font-bold py-4 rounded-2xl border border-outline-variant/30 hover:bg-white transition-all">Cancel</button>
+                    <button type="submit" class="flex-[2] signature-gradient text-white font-bold py-4 rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">Save Asset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-8 pt-4 bg-white/90 backdrop-blur-xl border-t border-outline-variant/10 z-50 rounded-t-[32px] shadow-[0_-8px_32px_rgba(0,0,0,0.05)]">
+        <a href="home.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Home</span>
+        </a>
+        <a href="employees.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">badge</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Team</span>
+        </a>
+        <a href="assets.html" class="nav-item active flex flex-col items-center justify-center px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Assets</span>
+        </a>
+        <a href="mapping.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">map</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Mapping</span>
+        </a>
+        <a href="reports.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">analytics</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Reports</span>
+        </a>
+    </nav>
+
+    <script src="main.js"></script>
+    <script>
+        const assetModal = document.getElementById('asset-modal');
+        const assetForm = document.getElementById('asset-form');
+        const assetModalTitle = document.getElementById('asset-modal-title');
+        const tableBody = document.getElementById('asset-table-body');
+        const paginationInfo = document.getElementById('pagination-info');
+
+        const searchInput = document.getElementById('asset-search');
+        const categoryFilter = document.getElementById('filter-category');
+        const statusFilter = document.getElementById('filter-status');
+
+        let allAssets = [];
+
+        // Search & Filter Logic
+        function filterAssets() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const category = categoryFilter.value;
+            const status = statusFilter.value;
+
+            const filtered = allAssets.filter(asset => {
+                const assignedName = (asset.assignedTo && asset.assignedTo.name) ? asset.assignedTo.name.toLowerCase() : '';
+                const matchesSearch = 
+                    asset.assetId.toLowerCase().includes(searchTerm) ||
+                    asset.serialNumber.toLowerCase().includes(searchTerm) ||
+                    asset.assetName.toLowerCase().includes(searchTerm) ||
+                    assignedName.includes(searchTerm);
+                
+                const matchesCategory = !category || asset.assetCategory === category;
+                const matchesStatus = !status || asset.assetStatus === status;
+
+                return matchesSearch && matchesCategory && matchesStatus;
+            });
+
+            renderAssets(filtered);
+        }
+
+        searchInput.addEventListener('input', filterAssets);
+        categoryFilter.addEventListener('change', filterAssets);
+        statusFilter.addEventListener('change', filterAssets);
+
+        // Show Modal for Ingest
+        document.getElementById('ingest-asset-btn').addEventListener('click', () => {
+            openAssetModal('Ingest New Asset');
+        });
+
+        async function loadData() {
+            // 1. Fetch assets (Primary Data)
+            try {
+                const assets = await PA.apiRequest('/assets');
+                allAssets = assets;
+                renderAssets(assets);
+            } catch (err) {
+                console.error('[Assets] Initial load failed:', err);
+                PA.showNotification('Failed to load system data', 'error');
+                tableBody.innerHTML = `<tr><td colspan="8" class="py-12 text-center text-outline">Critical data acquisition failure.</td></tr>`;
+            }
+
+            // 2. Fetch stats (Secondary Data - Non-blocking)
+            try {
+                const stats = await PA.apiRequest('/stats');
+                updateStats(stats);
+            } catch (err) {
+                console.warn('[Assets] Stats load failed (Permissions?):', err.message);
+                // Gracefully degrade: stats remain '--'
+            }
+        }
+
+        function updateStats(stats) {
+            document.getElementById('stat-total-assets').innerText = stats.totalAssets;
+            document.getElementById('stat-equipped-assets').innerText = stats.totalEquipped;
+            document.getElementById('stat-remaining-assets').innerText = stats.remainingAssets;
+        }
+
+        function renderAssets(assets) {
+            tableBody.innerHTML = assets.map(asset => {
+                const statusClasses = {
+                    'IN USE': { bg: 'bg-primary/10', text: 'text-primary' },
+                    'AVAILABLE': { bg: 'bg-tertiary/10', text: 'text-tertiary' },
+                    'MAINTENANCE': { bg: 'bg-error/10', text: 'text-error' },
+                    'RETIRED': { bg: 'bg-outline/10', text: 'text-outline' }
+                }[asset.assetStatus] || { bg: 'bg-outline/10', text: 'text-outline' };
+
+                return `
+                <tr class="hover:bg-surface-container-low/30 transition-colors group">
+                    <td class="py-4 px-6 text-sm font-black text-primary">${asset.assetId}</td>
+                    <td class="py-4 px-6 text-sm text-outline">SN: ${asset.serialNumber}</td>
+                    <td class="py-4 px-6 font-bold text-sm">${asset.assetName}</td>
+                    <td class="py-4 px-6">
+                        <span class="bg-primary/5 text-primary text-[10px] font-black px-2 py-1 rounded uppercase">${asset.assetCategory}</span>
+                    </td>
+                    <td class="py-4 px-6">
+                        <span class="${statusClasses.bg} ${statusClasses.text} text-[10px] font-black px-2 py-1 rounded-full uppercase">${asset.assetStatus}</span>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex items-center gap-2">
+                             ${asset.assignedTo ? `
+                                <div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">
+                                    ${(typeof asset.assignedTo === 'object' && asset.assignedTo.name) ? asset.assignedTo.name.split(' ').map(n=>n[0]).join('') : '??'}
+                                </div>
+                                <span class="text-xs font-bold">${typeof asset.assignedTo === 'object' ? (asset.assignedTo.name || 'Unknown') : 'ID: ' + asset.assignedTo}</span>
+                              ` : '<span class="text-xs text-outline italic">Unassigned</span>'}
+                        </div>
+                    </td>
+                    <td class="py-4 px-6 text-xs text-outline font-bold">${PA.formatDate(asset.checkOutDate)}</td>
+                    <td class="py-4 px-6 text-xs text-outline">${asset.brand || '--'}</td>
+                    <td class="py-4 px-6 text-xs text-outline">${asset.model || '--'}</td>
+                    <td class="py-4 px-6 text-right">
+                        <div class="flex justify-end gap-2">
+                            <button data-id="${asset.id || asset._id}" data-action="edit" class="asset-action-btn p-2 rounded-lg hover:bg-primary/5 text-primary transition-colors action-edit" title="Edit">
+                                <span class="material-symbols-outlined text-lg pointer-events-none">edit</span>
+                            </button>
+                            <button data-id="${asset.id || asset._id}" data-action="delete" class="asset-action-btn p-2 rounded-lg hover:bg-error/5 text-error transition-colors action-delete" title="Delete">
+                                <span class="material-symbols-outlined text-lg pointer-events-none">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            }).join('');
+            paginationInfo.innerHTML = `<span class="text-xs text-outline font-medium">Detailed Inventory View • ${assets.length} Displayed Units</span>`;
+        }
+
+        window.editAsset = (id) => {
+            // Robust lookup using string casting for type resilience
+            const asset = allAssets.find(a => String(a._id || a.id) === String(id));
+            if (!asset) {
+                console.warn('Asset not found in local state for ID:', id);
+                return;
+            }
+
+            document.getElementById('asset-database-id').value = asset.id || asset._id;
+            document.getElementById('asset-id').value = asset.assetId;
+            document.getElementById('asset-serial').value = asset.serialNumber;
+            document.getElementById('asset-name').value = asset.assetName;
+            document.getElementById('asset-category').value = asset.assetCategory;
+            document.getElementById('asset-status').value = asset.assetStatus;
+            document.getElementById('asset-brand').value = asset.brand || '';
+            document.getElementById('asset-model').value = asset.model || '';
+            document.getElementById('asset-assigned').value = asset.assignedTo ? asset.assignedTo._id || asset.assignedTo : '';
+            document.getElementById('asset-checkout').value = asset.checkOutDate ? asset.checkOutDate.split('T')[0] : '';
+            
+            openAssetModal('Update Asset Specification');
+        };
+
+        window.deleteAsset = async (id) => {
+            console.log('DELETE ASSET CLICKED:', id);
+            const confirmed = await PA.confirm('Are you sure you want to decommission this asset from the registry?');
+            if(!confirmed) return;
+            try {
+                const res = await PA.apiRequest(`/assets/${id}`, 'DELETE');
+                console.log('DELETE RESPONSE:', res);
+                PA.showNotification('Asset successfully decommissioned', 'success');
+                loadData();
+            } catch (err) {
+                console.error('DELETE ERROR:', err);
+                PA.showNotification(err.message, 'error');
+            }
+        };
+
+        function openAssetModal(title) {
+            assetModalTitle.innerText = title;
+            const isEdit = title.includes('Update');
+            const assetIdInput = document.getElementById('asset-id');
+            
+            if (isEdit) {
+                assetIdInput.classList.add('opacity-70');
+            } else {
+                assetIdInput.classList.remove('opacity-70');
+                assetIdInput.value = ''; // Ensure empty for auto-gen
+            }
+            
+            assetModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAssetModal() {
+            assetModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            assetForm.reset();
+            document.getElementById('asset-database-id').value = '';
+        }
+
+        // Modal close bindings (CSP Compliant)
+        document.getElementById('close-asset-btn').addEventListener('click', closeAssetModal);
+        document.getElementById('asset-overlay').addEventListener('click', closeAssetModal);
+        document.getElementById('cancel-asset-btn').addEventListener('click', closeAssetModal);
+
+        // Event Delegation for Table Actions
+        tableBody.addEventListener('click', (e) => {
+            const btn = e.target.closest('.asset-action-btn');
+            if (btn) {
+                const id = btn.getAttribute('data-id');
+                const action = btn.getAttribute('data-action');
+                if (action === 'edit') editAsset(id);
+                if (action === 'delete') deleteAsset(id);
+            }
+        });
+
+        assetForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('asset-database-id').value;
+            
+            // Extract a clean ID for assignment to prevent trying to save a full object
+            let assignedVal = document.getElementById('asset-assigned').value || null;
+            if (assignedVal && typeof assignedVal === 'object') {
+                assignedVal = assignedVal?._id || assignedVal?.id || assignedVal;
+            }
+
+            const payload = {
+                assetId: document.getElementById('asset-id').value,
+                serialNumber: document.getElementById('asset-serial').value,
+                assetName: document.getElementById('asset-name').value,
+                assetCategory: document.getElementById('asset-category').value,
+                assetStatus: document.getElementById('asset-status').value,
+                brand: document.getElementById('asset-brand').value,
+                model: document.getElementById('asset-model').value,
+                assignedTo: assignedVal,
+                checkOutDate: document.getElementById('asset-checkout').value || null
+            };
+
+            console.log('[DEBUG] ASSET SUBMIT:', { id, payload });
+
+            try {
+                if (id) {
+                    await PA.apiRequest(`/assets/${id}`, 'PUT', payload);
+                    PA.showNotification('Asset updated successfully', 'success');
+                } else {
+                    await PA.apiRequest('/assets', 'POST', payload);
+                    PA.showNotification('New asset ingested successfully', 'success');
+                }
+                closeAssetModal();
+                loadData();
+            } catch (err) {
+                console.error('[SUBMIT ERROR]', err);
+                PA.showNotification(err.message, 'error');
+            }
+        });
+
+        loadData();
+    </script>
+</body>
+</html>

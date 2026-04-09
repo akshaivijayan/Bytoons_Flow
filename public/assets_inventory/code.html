@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<title>Assets | Bytoons Flow</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "background": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-high": "#e6e8ea",
+                        "on-background": "#191c1e",
+                        "on-primary-container": "#ccdbff",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "secondary-fixed-dim": "#b4cad6",
+                        "on-tertiary-container": "#9be6ff",
+                        "on-secondary-fixed-variant": "#354a53",
+                        "inverse-primary": "#adc7ff",
+                        "tertiary-fixed": "#b3ebff",
+                        "inverse-surface": "#2d3133",
+                        "surface-variant": "#e0e3e5",
+                        "surface-bright": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#005cc3",
+                        "secondary-fixed": "#cfe6f2",
+                        "primary-fixed-dim": "#adc7ff",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "on-secondary-fixed": "#071e27",
+                        "surface-tint": "#005bc0",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-surface-variant": "#424752",
+                        "primary-fixed": "#d8e2ff",
+                        "secondary-container": "#cfe6f2",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#004493",
+                        "outline": "#727783",
+                        "tertiary-container": "#00697f",
+                        "on-primary-fixed": "#001a41",
+                        "primary": "#004596",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#001f27",
+                        "on-secondary-container": "#526772",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004e5f",
+                        "tertiary-fixed-dim": "#4cd6fb",
+                        "tertiary": "#004f61",
+                        "outline-variant": "#c2c6d4",
+                        "on-surface": "#191c1e",
+                        "secondary": "#4c616c"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        .headline-font {
+            font-family: 'Manrope', sans-serif;
+        }
+        /* Hide scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f7f9fb] dark:bg-slate-900 flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#005FB8] dark:text-blue-400 text-2xl">architecture</span>
+<h1 class="font-['Manrope'] font-extrabold text-xl text-[#005FB8] dark:text-blue-400 tracking-tighter">Bytoons Flow</h1>
+</div>
+<button class="hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors active:scale-95 duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">logout</span>
+</button>
+</header>
+<main class="pt-24 px-6 max-w-7xl mx-auto">
+<!-- Dashboard Header -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h2 class="headline-font text-4xl font-extrabold tracking-tight text-on-surface mb-2">Assets</h2>
+<p class="text-on-surface-variant font-body">Manage and track hardware across the organization.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="bg-surface-container-lowest border-none ring-1 ring-outline/10 focus:ring-2 focus:ring-primary rounded-xl pl-12 pr-6 py-3 w-full md:w-80 shadow-sm transition-all" placeholder="Search serials, models..." type="text"/>
+</div>
+<button class="bg-primary hover:bg-primary-container text-on-primary px-6 py-3 rounded-xl font-semibold transition-all flex items-center gap-2 shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined">add</span>
+<span>New Asset</span>
+</button>
+</div>
+</div>
+<!-- Quick Filters -->
+<div class="flex gap-3 mb-8 overflow-x-auto no-scrollbar pb-2">
+<button class="bg-secondary-container text-on-secondary-container px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap">All Assets</button>
+<button class="bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors">Laptops</button>
+<button class="bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors">Peripherals</button>
+<button class="bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors">Mobile Devices</button>
+</div>
+<!-- Asset Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Asset Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm hover:shadow-md transition-all group relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div class="bg-primary/5 p-3 rounded-lg group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">laptop_mac</span>
+</div>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Available</span>
+</div>
+<div class="mb-6">
+<h3 class="headline-font text-lg font-bold text-on-surface">MacBook Pro 16" M2</h3>
+<p class="text-xs font-mono text-outline mt-1 uppercase tracking-tighter">SN: AP-8829-XQ-2023</p>
+</div>
+<div class="flex items-center justify-between border-t border-outline/5 pt-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-sm">person_off</span>
+</div>
+<span class="text-sm text-outline font-medium">Unassigned</span>
+</div>
+<button class="text-primary hover:text-primary-container p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Asset Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm hover:shadow-md transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="bg-primary/5 p-3 rounded-lg group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">desktop_windows</span>
+</div>
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Assigned</span>
+</div>
+<div class="mb-6">
+<h3 class="headline-font text-lg font-bold text-on-surface">Dell UltraSharp 32" 4K</h3>
+<p class="text-xs font-mono text-outline mt-1 uppercase tracking-tighter">SN: DL-4401-PP-1190</p>
+</div>
+<div class="flex items-center justify-between border-t border-outline/5 pt-4">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover shadow-sm" data-alt="portrait of a professional male employee with friendly expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAl7v7peu9BsLLAVmfOLmY32SkV47q7v58Bw6ekL_JG0Si6Kaegji9SwPlGZng5s3o-MRt-fZfw1v7gWgO-0mLgOYdBHkOYSPi0dqr6v9jVXbr6ku1nsGYNyrO9GZwEi0QcT9wh5XSL6lIAZAD5hJsjSbXdocwWrRYAeuEF-_ubyymVq1QnXbCNUcsm8zlZViRe6KGO6hLf987xhEzv1AeSSGevWV4ZviztWmIXfQ39mkWIvpm7oLyTikLCNbEem0r9LkKtdvwisg"/>
+<span class="text-sm text-on-surface font-semibold">David Chen</span>
+</div>
+<button class="text-primary hover:text-primary-container p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Asset Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm hover:shadow-md transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="bg-primary/5 p-3 rounded-lg group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">smartphone</span>
+</div>
+<span class="bg-secondary-fixed-dim text-on-secondary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">In Repair</span>
+</div>
+<div class="mb-6">
+<h3 class="headline-font text-lg font-bold text-on-surface">iPhone 15 Pro Max</h3>
+<p class="text-xs font-mono text-outline mt-1 uppercase tracking-tighter">SN: PH-9902-ZZ-0041</p>
+</div>
+<div class="flex items-center justify-between border-t border-outline/5 pt-4">
+<div class="flex items-center gap-3 opacity-60">
+<img class="w-8 h-8 rounded-full object-cover grayscale" data-alt="professional female employee with clear bright background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAygXWQZUZ7ErFsVIafP-hx__4EY161DMZd9MxSVZa-9cP-rFLFOCJPKdC7FGO8WdeJdInVvKLqJYTtSYvyS2_NGNzVFp9K995C416FWo_QV3UObYM3f2I__y1sMO4xP9OV129WOxNWsSe3XntbcKviDKgd6bHT7ZNh6iAK0t4itn5AVCcTY4fhWKijt6AGBPkrrDsbNTlK8P7buy6tC3BmiYMYoltjX-ogd0UltsuKszwiekb7nyAzGPzuVWfyyqiFhwcfCbg34S8"/>
+<span class="text-sm text-on-surface font-semibold line-through">Sarah Jenkins</span>
+</div>
+<button class="text-primary hover:text-primary-container p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Asset Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm hover:shadow-md transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="bg-primary/5 p-3 rounded-lg group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">laptop_chromebook</span>
+</div>
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Assigned</span>
+</div>
+<div class="mb-6">
+<h3 class="headline-font text-lg font-bold text-on-surface">ThinkPad X1 Carbon</h3>
+<p class="text-xs font-mono text-outline mt-1 uppercase tracking-tighter">SN: LN-1120-GH-8874</p>
+</div>
+<div class="flex items-center justify-between border-t border-outline/5 pt-4">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover shadow-sm" data-alt="man with beard in a tech environment looking professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmYQlt0aTLX91f8YVBlgwAE-cQKA9l88VLGXWtwizOj0En_nNLNIjgs2Pcpwd3GMjAnsNUMaNRJmTPdGFlDPLt6Zw8mhyh6AZ0S5269Is2utjc8axvzaijoEicDUcGgC6erwAcquHsrRSApYQA4SCrbmh9tSD7LHCXoGHxMdytSefIhjVciF6htQp1o3r_BKPx9jGEMNOxltUCyKv6f-4rjGl4rDzj5xqOWKUxK-kntQaQQoOPjp1oR30aRHNpoXNNwDa-Qm5HqPg"/>
+<span class="text-sm text-on-surface font-semibold">Marcus Thorne</span>
+</div>
+<button class="text-primary hover:text-primary-container p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Asset Card 5 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm hover:shadow-md transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="bg-primary/5 p-3 rounded-lg group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">keyboard</span>
+</div>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Available</span>
+</div>
+<div class="mb-6">
+<h3 class="headline-font text-lg font-bold text-on-surface">MX Keys Mechanical</h3>
+<p class="text-xs font-mono text-outline mt-1 uppercase tracking-tighter">SN: LG-4455-KB-0021</p>
+</div>
+<div class="flex items-center justify-between border-t border-outline/5 pt-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-sm">person_off</span>
+</div>
+<span class="text-sm text-outline font-medium">Unassigned</span>
+</div>
+<button class="text-primary hover:text-primary-container p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Asset Card 6 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm hover:shadow-md transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="bg-primary/5 p-3 rounded-lg group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">headphones</span>
+</div>
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Assigned</span>
+</div>
+<div class="mb-6">
+<h3 class="headline-font text-lg font-bold text-on-surface">Sony WH-1000XM5</h3>
+<p class="text-xs font-mono text-outline mt-1 uppercase tracking-tighter">SN: SN-8833-AU-4566</p>
+</div>
+<div class="flex items-center justify-between border-t border-outline/5 pt-4">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover shadow-sm" data-alt="smiling female employee with professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGK5UULFZZpJGOmumpWVnxNi8ibTcouGvjoKqIA2zhnJpfgAbJ2GUi8UtanfCAVxSdk9dXmKBOJjsGnODo2HIhDklUDQeDLrHBLnfKAd_bDPX-GUNG8uBW-SPJrvBi0Xlvt9b_gly8CLvnTPffM_JyYQCcM763yJN9hc9mjKMKXu7kQwWlVOOp5Rn4NkvhLS1o6QI8tyxrgMhsIYL11jlOYDwuV-jDOAJIPa2Lg7Pvp8jtowwg05vXy1R_DwDKWR9OPbNJwhZHQTU"/>
+<span class="text-sm text-on-surface font-semibold">Elena Rodriguez</span>
+</div>
+<button class="text-primary hover:text-primary-container p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Inventory Stats Glass Card -->
+<section class="mt-12 bg-white/85 backdrop-blur-md rounded-2xl p-8 shadow-[0_12px_32px_-4px_rgba(25,28,30,0.06)] border border-white/20">
+<h3 class="headline-font text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                Inventory Summary
+            </h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<div>
+<p class="font-label text-[10px] uppercase tracking-widest text-outline mb-1">Total Assets</p>
+<p class="headline-font text-3xl font-extrabold text-on-surface">1,284</p>
+</div>
+<div>
+<p class="font-label text-[10px] uppercase tracking-widest text-outline mb-1">Utilization</p>
+<p class="headline-font text-3xl font-extrabold text-primary">82%</p>
+</div>
+<div>
+<p class="font-label text-[10px] uppercase tracking-widest text-outline mb-1">In Maintenance</p>
+<p class="headline-font text-3xl font-extrabold text-on-surface">14</p>
+</div>
+<div>
+<p class="font-label text-[10px] uppercase tracking-widest text-outline mb-1">Storage Cost</p>
+<p class="headline-font text-3xl font-extrabold text-on-surface">$2.4k</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md z-50 rounded-t-xl shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all cubic-bezier(0.4,0,0.2,1) duration-300" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all cubic-bezier(0.4,0,0.2,1) duration-300" href="#">
+<span class="material-symbols-outlined mb-1">badge</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider">Employees</span>
+</a>
+<!-- Active Item -->
+<a class="flex flex-col items-center justify-center bg-[#005FB8]/10 dark:bg-blue-900/30 text-[#005FB8] dark:text-blue-300 rounded-full px-4 py-1 transition-all cubic-bezier(0.4,0,0.2,1) duration-300" href="#">
+<span class="material-symbols-outlined mb-1">inventory_2</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider">Assets</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all cubic-bezier(0.4,0,0.2,1) duration-300" href="#">
+<span class="material-symbols-outlined mb-1">map</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider">Mapping</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all cubic-bezier(0.4,0,0.2,1) duration-300" href="#">
+<span class="material-symbols-outlined mb-1">analytics</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider">Reports</span>
+</a>
+</nav>
+</body></html>

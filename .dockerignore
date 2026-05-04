@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+db.sqlite
+.env
+server/.env
+.git
+.gitignore
+scratch
+Dockerfile
+.dockerignore

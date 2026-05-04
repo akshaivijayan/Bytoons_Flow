@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bytoons Flow - Asset Mapping</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "background": "#f7f9fb",
+                "surface-container-low": "#f2f4f6",
+                "surface-container-high": "#e6e8ea",
+                "on-background": "#191c1e",
+                "on-primary-container": "#ccdbff",
+                "on-secondary": "#ffffff",
+                "surface-dim": "#d8dadc",
+                "secondary-fixed-dim": "#b4cad6",
+                "on-tertiary-container": "#9be6ff",
+                "on-secondary-fixed-variant": "#354a53",
+                "inverse-primary": "#adc7ff",
+                "tertiary-fixed": "#b3ebff",
+                "inverse-surface": "#2d3133",
+                "surface-variant": "#e0e3e5",
+                "surface-bright": "#f7f9fb",
+                "error-container": "#ffdad6",
+                "error": "#ba1a1a",
+                "on-primary": "#ffffff",
+                "primary-container": "#005cc3",
+                "secondary-fixed": "#cfe6f2",
+                "primary-fixed-dim": "#adc7ff",
+                "surface": "#f7f9fb",
+                "surface-container": "#eceef0",
+                "on-secondary-fixed": "#071e27",
+                "surface-tint": "#005bc0",
+                "surface-container-highest": "#e0e3e5",
+                "on-surface-variant": "#424752",
+                "primary-fixed": "#d8e2ff",
+                "secondary-container": "#cfe6f2",
+                "on-tertiary": "#ffffff",
+                "on-error-container": "#93000a",
+                "on-primary-fixed-variant": "#004493",
+                "outline": "#727783",
+                "tertiary-container": "#00697f",
+                "on-primary-fixed": "#001a41",
+                "primary": "#004596",
+                "inverse-on-surface": "#eff1f3",
+                "on-error": "#ffffff",
+                "on-tertiary-fixed": "#001f27",
+                "on-secondary-container": "#526772",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-fixed-variant": "#004e5f",
+                "tertiary-fixed-dim": "#4cd6fb",
+                "tertiary": "#004f61",
+                "outline-variant": "#c2c6d4",
+                "on-surface": "#191c1e",
+                "secondary": "#4c616c"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+        .tonal-shift {
+            background-color: #f2f4f6;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f7f9fb] dark:bg-slate-900 flex justify-between items-center px-6 py-4 shadow-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#005FB8] dark:text-blue-400 text-2xl" data-icon="architecture">architecture</span>
+<h1 class="font-['Manrope'] font-extrabold text-xl tracking-tighter text-[#005FB8] dark:text-blue-400">Bytoons Flow</h1>
+</div>
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400" data-icon="logout">logout</span>
+</button>
+</header>
+<main class="pt-24 px-6 max-w-7xl mx-auto space-y-10">
+<!-- Dashboard Header -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-1">
+<p class="font-label text-xs font-medium uppercase tracking-widest text-primary">Resource Management</p>
+<h2 class="font-headline text-3xl font-extrabold tracking-tight">Asset Mapping Master</h2>
+</div>
+<!-- Quick Assign Action Area -->
+<div class="bg-surface-container-low p-2 rounded-xl flex gap-2">
+<div class="flex -space-x-3 overflow-hidden p-1">
+<img class="inline-block h-8 w-8 rounded-full ring-2 ring-surface-container-low" data-alt="professional corporate headshot of a woman with a friendly expression in a modern office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqV_caaNeXitzg34xJx2Jiq6mN95kUbhXCrEeQBzpBRfc_Py6FwXG9ePZpxsXhisHZbh1gWeYnL7796o_z5g15uG2ymR1jzmlMgaLaQ4kMNB_QiGmFLVZ4sP85vWjRZwCSxP652eeQ-4eMbCeg0Sspxngh72kVMZSyNE3Lbsc8nWC8XVfUrN_E4yM2pBzJuKbhrwnkhIxccc9DQZLpTMibfnCwGHM3ZGVsVyNCV-UUW23yVbzeKtvaYFVhJhh1hrAEbhy69-wTeMI"/>
+<img class="inline-block h-8 w-8 rounded-full ring-2 ring-surface-container-low" data-alt="professional corporate headshot of a man with glasses smiling in a clean studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-fDOEo7fR9eGetXq-YrO5H96Nv8gmipacuVsfVS3vK4gZB8fwBobp-FDWega8iStCgDv2JXFsGMS2g3xK2MJkQwhMfylF7w8AbPMNlxInoJ_FDxrMujHZeGhV59d7x5hhheOFIULvjSkZ7cgmzQEvnXzgk0USfbOsKA7NYnyQjauAMDSpPojOfTP9sXMGipCe88O2VfHe07sd90iYMPBPYe-zov8mpD0rrHP2ylWKTrQlFRoAfn7YTHkXVE7CZZHXeV_qCYn8CG0"/>
+<img class="inline-block h-8 w-8 rounded-full ring-2 ring-surface-container-low" data-alt="portrait of a young female professional looking confident in a bright business environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5xMQN6qaWYFTOf-W-niuwOt7eaWsDhQz5oC_4Qm1QM6InS2Yca1u9wsqyrgFrJQkKI6kZoMQa3lkNlk3SeXO6wIEaIohq0CYOFMEqHKsceaoNRG3cTN5f1LugkrW_CsFiMS2kudy3qCmx3qnEe-CYlxX6k4rO_X8X_8A0IKLurKKoklByXpaClLyPsvfL0yHoGNvYc-h1Rfti6xCshHM1vidU35dPGITUvzSKf4WQCWtirAZdwo-hHNLzbzoukn2iYQOO6dgGuLU"/>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-5 py-2 rounded-xl font-headline font-bold text-sm shadow-lg shadow-primary/20 flex items-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="add_link">add_link</span>
+                    New Assignment
+                </button>
+</div>
+</section>
+<!-- Bento Grid for Mapping -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Column 1: Unassigned Assets (The Source) -->
+<div class="lg:col-span-1 space-y-4">
+<div class="flex items-center justify-between px-2">
+<h3 class="font-headline font-bold text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary" data-icon="inventory_2">inventory_2</span>
+                        Available Pool
+                    </h3>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-tighter">12 Items</span>
+</div>
+<div class="space-y-3">
+<!-- Asset Card -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border-l-4 border-tertiary-fixed hover:shadow-md transition-shadow group cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest">Workstation</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<h4 class="font-headline font-bold text-on-surface">MacBook Pro M3 Max</h4>
+<p class="text-xs text-on-surface-variant mb-4">SN: PA-8829-XQ</p>
+<div class="flex items-center justify-between">
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] font-bold px-2 py-1 rounded">DEPT: ENGINEERING</span>
+<button class="text-primary font-bold text-xs flex items-center gap-1">
+                                Assign <span class="material-symbols-outlined text-xs" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Asset Card 2 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border-l-4 border-tertiary-fixed hover:shadow-md transition-shadow group cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest">Mobile Device</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<h4 class="font-headline font-bold text-on-surface">iPhone 15 Pro</h4>
+<p class="text-xs text-on-surface-variant mb-4">SN: PA-1104-IP</p>
+<div class="flex items-center justify-between">
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] font-bold px-2 py-1 rounded">DEPT: SALES</span>
+<button class="text-primary font-bold text-xs flex items-center gap-1">
+                                Assign <span class="material-symbols-outlined text-xs" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Asset Card 3 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border-l-4 border-tertiary-fixed hover:shadow-md transition-shadow group cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest">Network Gear</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<h4 class="font-headline font-bold text-on-surface">Starlink Gen 3 Kit</h4>
+<p class="text-xs text-on-surface-variant mb-4">SN: PA-SK-900</p>
+<div class="flex items-center justify-between">
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] font-bold px-2 py-1 rounded">DEPT: FIELD OPS</span>
+<button class="text-primary font-bold text-xs flex items-center gap-1">
+                                Assign <span class="material-symbols-outlined text-xs" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 2 & 3: Current Mappings (Active Connections) -->
+<div class="lg:col-span-2 space-y-4">
+<div class="flex items-center justify-between px-2">
+<h3 class="font-headline font-bold text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="hub">hub</span>
+                        Active Mappings
+                    </h3>
+<div class="flex items-center gap-2">
+<div class="relative">
+<input class="bg-surface-container-low border-none rounded-full py-1.5 pl-9 pr-4 text-xs w-48 focus:ring-1 focus:ring-primary" placeholder="Search employee..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-sm text-outline" data-icon="search">search</span>
+</div>
+<button class="p-1.5 bg-surface-container-high rounded-lg text-on-surface-variant hover:bg-surface-dim transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Table Style Grid -->
+<div class="bg-surface-container-low rounded-2xl overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/10">
+<th class="py-4 px-6 font-headline font-bold text-[10px] uppercase tracking-widest text-outline">Employee</th>
+<th class="py-4 px-6 font-headline font-bold text-[10px] uppercase tracking-widest text-outline">Assigned Asset</th>
+<th class="py-4 px-6 font-headline font-bold text-[10px] uppercase tracking-widest text-outline text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
+<img data-alt="close-up portrait of a male professional in a blue shirt with a natural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhnAjREAHW9gTcwc1bhsvtupQGL2yCA7yCyPdIsptI0BxmhdNwFAeQOHkaAsYA4CFOoH-n6BgV-RRMSnurrlJWdPF5DaIryU6fs7Y2u94Fq3-rkVaDw62ful3LtBl-dNNRadSWQ_4f9z1Irqd3ZCLl8iycxEHOlKK-16EGfPg2EzkbH09Jz4Nfdy3KtwUEH9Yh6X4ThphOtcT2shz1G03R2JFCFvtlNAFd2vImWs8ekz1AjHajah6Yti22to3oHW1SG4a4I_Qto2Q"/>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">Marcus Chen</div>
+<div class="text-[10px] text-outline font-medium">Sr. Developer</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="laptop_mac">laptop_mac</span>
+<div>
+<div class="font-headline font-semibold text-sm">MBP 16" - 2024</div>
+<div class="text-[10px] text-primary font-bold">SN: AS-992-01</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-xs hover:bg-white transition-colors">Edit</button>
+<button class="px-3 py-1.5 rounded-lg bg-error-container text-on-error-container font-bold text-xs hover:bg-error/10 transition-colors">Revoke</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center overflow-hidden">
+<img data-alt="portrait of a woman with curly hair looking directly at the camera in soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBIEkrvIjTck-x6oG9pPrx9jBOcrM5fFK0qrnVfAffXT_9JAqUgDp96iQtYXsXhqt00jdk0w1MA_muUif4De6xtX0_nKM7d-rbiaGsus2CuSd0rzI2n_yZWNTw1fF31kUrWgyPUidjjagu9MfyUQ_9hhVWqBbsWVYXBwvpt1ke3JVYF2blBpz9LYyYn-iDqjWBdRj3hExoyN2gX4I13QLPN1GWEkMO5GVHDGYimdjQuNIkzYBORH8erMDF9bxa0fKSTmrWZnmpkFQ"/>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">Elena Rodriguez</div>
+<div class="text-[10px] text-outline font-medium">Head of Design</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="monitor">monitor</span>
+<div>
+<div class="font-headline font-semibold text-sm">Studio Display 5K</div>
+<div class="text-[10px] text-primary font-bold">SN: DS-441-MX</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-xs hover:bg-white transition-colors">Edit</button>
+<button class="px-3 py-1.5 rounded-lg bg-error-container text-on-error-container font-bold text-xs hover:bg-error/10 transition-colors">Revoke</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
+<img data-alt="portrait of a bearded man wearing a neutral colored t-shirt, smiling slightly in a professional environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO-m48y-s6u8LL5O7qsmkoMkwnZrwpueLTI5-RYZzkf-NzTO5x9L-K85rQdaLuPpAMTsQujriwMUv0BQu1_liWKDBrVMnCRP_1_ooTqD_M_zgywnna91ykYPs6ufIJdmHAyDYsTuIzwJ7xMVRKTGnh0JH7WOpk8plp-FVPvsa_gZqCLkcf6sRIk8ZXMAFJkFF1kT0BR7DUsofcWkgW1DAkA4yKSjlgPiC5SvNkx-E92694bXFx84VjIHyQhqsN6G0phCPEC6g3LY8"/>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">Samuel Thorne</div>
+<div class="text-[10px] text-outline font-medium">Network Admin</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="router">router</span>
+<div>
+<div class="font-headline font-semibold text-sm">Cisco Catalyst C9200</div>
+<div class="text-[10px] text-primary font-bold">SN: CS-772-SW</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-xs hover:bg-white transition-colors">Edit</button>
+<button class="px-3 py-1.5 rounded-lg bg-error-container text-on-error-container font-bold text-xs hover:bg-error/10 transition-colors">Revoke</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center overflow-hidden">
+<img data-alt="confident businessman in a well-tailored suit, medium shot with high-end office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh8i2KEh0J9kYSbCBM6q30Z12osfnhqFt1ehNBWLMdGM2lbPi4GT0ax0_gByGPnciF5BvtunTZKvgzs3ie_A8v-_Fi7KODldqmhEYMJfUWpXkadzj0hTa0m3aj1G85Ha8ccFOkgeKYia1Wpf8RePJH1QqzLUf-R4rnxjEwDTVkbxuMyithKsTc31hRGnkbbRCZMjxkjF0z4U8kDWcCpAuUswvkmBSKp09YlkelNpDhP3t1H91YwjTuJezo3K8HKeRF6zAR_tdtSWc"/>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">Jordan Lee</div>
+<div class="text-[10px] text-outline font-medium">Sales Executive</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="smartphone">smartphone</span>
+<div>
+<div class="font-headline font-semibold text-sm">Galaxy S24 Ultra</div>
+<div class="text-[10px] text-primary font-bold">SN: SA-112-99</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-xs hover:bg-white transition-colors">Edit</button>
+<button class="px-3 py-1.5 rounded-lg bg-error-container text-on-error-container font-bold text-xs hover:bg-error/10 transition-colors">Revoke</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- History Feed / Small Bento Card -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/5">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary-container" data-icon="history">history</span>
+<h4 class="font-headline font-bold">Recent Changes</h4>
+</div>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="w-1.5 h-1.5 rounded-full bg-error mt-1.5"></div>
+<div class="text-xs">
+<span class="font-bold">Revoked:</span> MacBook Pro from <span class="font-semibold">Sarah Jenkins</span>
+<p class="text-[10px] text-outline">2 hours ago</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-1.5 h-1.5 rounded-full bg-tertiary mt-1.5"></div>
+<div class="text-xs">
+<span class="font-bold">Assigned:</span> iPad Pro to <span class="font-semibold">David Wu</span>
+<p class="text-[10px] text-outline">Yesterday at 4:15 PM</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="bg-gradient-to-br from-[#004596] to-[#005cc3] p-6 rounded-2xl shadow-xl text-white overflow-hidden relative">
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl opacity-10" data-icon="security">security</span>
+<div class="relative z-10">
+<h4 class="font-headline font-bold text-lg mb-2">Compliance Alert</h4>
+<p class="text-xs text-on-primary-container leading-relaxed mb-4">3 active mappings have expired security certificates. Batch refresh required.</p>
+<button class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-lg text-xs font-bold transition-colors">
+                                Review Violations
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md z-50 rounded-t-xl shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-1">Employees</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-1">Assets</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#005FB8]/10 dark:bg-blue-900/30 text-[#005FB8] dark:text-blue-300 rounded-full px-4 py-1 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="map" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-1">Mapping</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#005FB8] dark:hover:text-blue-300 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-1">Reports</span>
+</a>
+</nav>
+</body></html>

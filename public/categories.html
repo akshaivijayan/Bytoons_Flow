@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Asset Categories | Bytoons Flow</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#004596',
+                        'primary-container': '#005cc3',
+                        'on-primary': '#ffffff',
+                        'background': '#f7f9fb',
+                        'surface-container-low': '#f2f4f6',
+                        'surface-container-high': '#e6e8ea',
+                        'surface-container-highest': '#e0e3e5',
+                        'on-surface': '#191c1e',
+                        'on-surface-variant': '#424752',
+                        'outline': '#727783',
+                        'outline-variant': '#c2c6d4',
+                        'tertiary': '#004f61',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Local Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen pb-32">
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-outline-variant/10 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-2xl">architecture</span>
+            <h1 class="text-xl text-primary font-extrabold tracking-tighter">Bytoons Flow</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button id="logout-btn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-error/10 transition-colors text-primary border border-primary/20">
+                <span class="material-symbols-outlined">logout</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-6 max-w-7xl mx-auto space-y-8 animate-fade-in">
+        <header class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="space-y-1">
+                <p class="text-[10px] uppercase tracking-widest text-primary font-bold font-label">Governance & Inventory</p>
+                <h2 class="text-3xl font-extrabold tracking-tight">Asset Categories</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="assets.html" class="bg-surface-container-high text-on-surface px-6 py-3 rounded-2xl font-bold text-sm border border-outline-variant/30 flex items-center gap-2 hover:bg-white transition-all">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    Back to Assets
+                </a>
+                <button id="add-cat-btn" class="signature-gradient text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-xl shadow-primary/20 flex items-center gap-2 hover:scale-105 transition-all">
+                    <span class="material-symbols-outlined">category</span>
+                    Add Category
+                </button>
+            </div>
+        </header>
+        
+        <!-- Search -->
+        <section class="glass-card p-4 rounded-2xl flex items-center">
+            <div class="relative flex-1 w-full">
+                <input id="search-input" class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-11 pr-4 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Search categories by name or code..." type="text"/>
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+            </div>
+        </section>
+
+
+        <!-- Categories Table -->
+        <div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/10 shadow-sm">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-surface-container-low/50">
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Code</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Category Name</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Description</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cat-table-body" class="divide-y divide-outline-variant/10">
+                        <!-- Dynamic Content will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination-info" class="bg-surface-container-low/50 px-6 py-4 flex justify-between items-center ">
+                <span class="text-xs text-outline font-medium">Loading category data...</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Overlay -->
+    <div id="cat-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div id="cat-overlay" class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-lg max-h-[90vh] bg-white rounded-[32px] shadow-2xl overflow-hidden animate-fade-in flex flex-col">
+            <header class="p-8 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30 shrink-0">
+                <div>
+                    <h3 id="modal-title" class="text-2xl font-black tracking-tight">Add Category</h3>
+                    <p class="text-xs text-outline font-bold uppercase tracking-widest mt-1">Classification Registry</p>
+                </div>
+                <button id="close-cat-btn" class="w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </header>
+            <form id="cat-form" class="p-8 space-y-6 overflow-y-auto custom-scrollbar flex-1">
+                <input type="hidden" id="cat-id">
+                <div class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Category Code</label>
+                        <input type="text" id="cat-code" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" placeholder="e.g. LAPTOP, MOBILE, PER" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Category Name</label>
+                        <input type="text" id="cat-name" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" placeholder="e.g. Laptops" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Description</label>
+                        <textarea id="cat-description" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 h-24" placeholder="Brief description of asset category..."></textarea>
+                    </div>
+                </div>
+                <div class="pt-6 flex gap-3">
+                    <button id="cancel-cat-btn" type="button" class="flex-1 bg-surface-container-high text-on-surface font-bold py-4 rounded-2xl border border-outline-variant/30 hover:bg-white transition-all">Cancel</button>
+                    <button type="submit" class="flex-[2] signature-gradient text-white font-bold py-4 rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Navigation (Bottom Bar) -->
+    <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-8 pt-4 bg-white/90 backdrop-blur-xl border-t border-outline-variant/10 z-50 rounded-t-[32px] shadow-[0_-8px_32px_rgba(0,0,0,0.05)]">
+        <a href="home.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Home</span>
+        </a>
+        <a href="employees.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">badge</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Team</span>
+        </a>
+        <a href="assets.html" class="nav-item active flex flex-col items-center justify-center px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Assets</span>
+        </a>
+        <a href="mapping.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">map</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Mapping</span>
+        </a>
+        <a href="reports.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">analytics</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Reports</span>
+        </a>
+    </nav>
+
+    <script src="main.js"></script>
+    <script>
+        const modal = document.getElementById('cat-modal');
+        const form = document.getElementById('cat-form');
+        const modalTitle = document.getElementById('modal-title');
+        const tableBody = document.getElementById('cat-table-body');
+        const paginationInfo = document.getElementById('pagination-info');
+
+        let allCategories = [];
+
+        async function loadCategories() {
+            try {
+                const categories = await PA.apiRequest('/categories');
+                allCategories = categories;
+                renderCategories(categories);
+            } catch (err) {
+                console.error('Load Categories Error:', err);
+                PA.showNotification('Failed to synchronize category data', 'error');
+            }
+        }
+
+        function renderCategories(categories) {
+            tableBody.innerHTML = categories.map(cat => {
+                const catId = cat.id || cat._id;
+                return `
+                <tr class="hover:bg-surface-container-low/30 transition-colors group">
+                    <td class="py-4 px-6 text-xs font-black text-primary">${cat.code}</td>
+                    <td class="py-4 px-6 font-bold text-sm">${cat.name}</td>
+                    <td class="py-4 px-6 text-sm text-outline">${cat.description || '--'}</td>
+                    <td class="py-4 px-6 text-right">
+                        <div class="flex justify-end gap-2">
+                            <button data-id="${catId}" data-action="edit" class="cat-action-btn p-2 rounded-lg hover:bg-primary/5 text-primary transition-colors">
+                                <span class="material-symbols-outlined text-lg pointer-events-none">edit</span>
+                            </button>
+                            <button data-id="${catId}" data-action="delete" class="cat-action-btn p-2 rounded-lg hover:bg-error/5 text-error transition-colors">
+                                <span class="material-symbols-outlined text-lg pointer-events-none">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `}).join('');
+            paginationInfo.innerHTML = `<span class="text-xs text-outline font-medium">Managing ${categories.length} categories</span>`;
+        }
+
+        window.editCategory = (id) => {
+            const cat = allCategories.find(c => String(c.id || c._id) === String(id));
+            if (!cat) return;
+
+            document.getElementById('cat-id').value = id;
+            document.getElementById('cat-code').value = cat.code;
+            document.getElementById('cat-name').value = cat.name;
+            document.getElementById('cat-description').value = cat.description || '';
+            
+            openModal('Edit Category');
+        };
+
+        window.deleteCategory = async (id) => {
+            const confirmed = await PA.confirm('Are you sure you want to remove this category?');
+            if (!confirmed) return;
+            try {
+                await PA.apiRequest(`/categories/${id}`, 'DELETE');
+                PA.showNotification('Category removed from registry', 'success');
+                loadCategories();
+            } catch (err) {
+                PA.showNotification(err.message, 'error');
+            }
+        };
+
+        function openModal(title) {
+            modalTitle.innerText = title;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            if (title.includes('Add')) {
+                form.reset();
+                document.getElementById('cat-id').value = '';
+            }
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            form.reset();
+            document.getElementById('cat-id').value = '';
+        }
+
+        document.getElementById('add-cat-btn').addEventListener('click', () => openModal('Add New Category'));
+        document.getElementById('close-cat-btn').addEventListener('click', closeModal);
+        document.getElementById('cat-overlay').addEventListener('click', closeModal);
+        document.getElementById('cancel-cat-btn').addEventListener('click', closeModal);
+
+        tableBody.addEventListener('click', (e) => {
+            const btn = e.target.closest('.cat-action-btn');
+            if (btn) {
+                const id = btn.getAttribute('data-id');
+                const action = btn.getAttribute('data-action');
+                if (action === 'edit') editCategory(id);
+                if (action === 'delete') deleteCategory(id);
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('cat-id').value;
+            const payload = {
+                code: document.getElementById('cat-code').value,
+                name: document.getElementById('cat-name').value,
+                description: document.getElementById('cat-description').value
+            };
+
+            try {
+                if (id) {
+                    await PA.apiRequest(`/categories/${id}`, 'PUT', payload);
+                    PA.showNotification('Category updated', 'success');
+                } else {
+                    await PA.apiRequest('/categories', 'POST', payload);
+                    PA.showNotification('Category added successfully', 'success');
+                }
+                closeModal();
+                loadCategories();
+            } catch (err) {
+                PA.showNotification(err.message, 'error');
+            }
+        });
+
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allCategories.filter(c => 
+                c.name.toLowerCase().includes(query) || 
+                c.code.toLowerCase().includes(query)
+            );
+            renderCategories(filtered);
+        });
+
+        loadCategories();
+    </script>
+</body>
+</html>

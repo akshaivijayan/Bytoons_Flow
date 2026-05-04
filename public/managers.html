@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Managers Registry | Bytoons Flow</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#004596',
+                        'primary-container': '#005cc3',
+                        'on-primary': '#ffffff',
+                        'background': '#f7f9fb',
+                        'surface-container-low': '#f2f4f6',
+                        'surface-container-high': '#e6e8ea',
+                        'surface-container-highest': '#e0e3e5',
+                        'on-surface': '#191c1e',
+                        'on-surface-variant': '#424752',
+                        'outline': '#727783',
+                        'outline-variant': '#c2c6d4',
+                        'tertiary': '#004f61',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Local Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen pb-32">
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-outline-variant/10 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-2xl">architecture</span>
+            <h1 class="text-xl text-primary font-extrabold tracking-tighter">Bytoons Flow</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button id="logout-btn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-error/10 transition-colors text-primary border border-primary/20">
+                <span class="material-symbols-outlined">logout</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-6 max-w-7xl mx-auto space-y-8 animate-fade-in">
+        <header class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="space-y-1">
+                <p class="text-[10px] uppercase tracking-widest text-primary font-bold font-label">Governance & Oversight</p>
+                <h2 class="text-3xl font-extrabold tracking-tight">Managers Registry</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="employees.html" class="bg-surface-container-high text-on-surface px-6 py-3 rounded-2xl font-bold text-sm border border-outline-variant/30 flex items-center gap-2 hover:bg-white transition-all">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    Back to Team
+                </a>
+                <button id="register-mgr-btn" class="signature-gradient text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-xl shadow-primary/20 flex items-center gap-2 hover:scale-105 transition-all">
+                    <span class="material-symbols-outlined">person_add_alt</span>
+                    Register Manager
+                </button>
+            </div>
+        </header>
+        
+        <!-- Search -->
+        <section class="glass-card p-4 rounded-2xl flex items-center">
+            <div class="relative flex-1 w-full">
+                <input id="search-input" class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-11 pr-4 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Search managers by name or email..." type="text"/>
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+            </div>
+        </section>
+
+
+        <!-- Managers Table -->
+        <div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/10 shadow-sm">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-surface-container-low/50">
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Manager</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Email</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Department</th>
+                            <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="manager-table-body" class="divide-y divide-outline-variant/10">
+                        <!-- Dynamic Content will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination-info" class="bg-surface-container-low/50 px-6 py-4 flex justify-between items-center ">
+                <span class="text-xs text-outline font-medium">Loading registry data...</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Overlay -->
+    <div id="manager-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div id="mgr-overlay" class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-lg max-h-[90vh] bg-white rounded-[32px] shadow-2xl overflow-hidden animate-fade-in flex flex-col">
+            <header class="p-8 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30 shrink-0">
+                <div>
+                    <h3 id="modal-title" class="text-2xl font-black tracking-tight">Register Manager</h3>
+                    <p class="text-xs text-outline font-bold uppercase tracking-widest mt-1">Personnel Oversight Registry</p>
+                </div>
+                <button id="close-mgr-btn" class="w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </header>
+            <form id="manager-form" class="p-8 space-y-6 overflow-y-auto custom-scrollbar flex-1">
+                <input type="hidden" id="mgr-id">
+                <div id="create-manager-fields" class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Select Employee to Promote</label>
+                        <select id="mgr-employee-id" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" required>
+                            <option value="">Choose Employee...</option>
+                        </select>
+                        <p class="text-[10px] text-outline italic">Note: Only employees not already registered as managers are shown.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Managed Department</label>
+                        <select id="mgr-dept" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20">
+                            <option>Engineering</option>
+                            <option>Design</option>
+                            <option>Operations</option>
+                            <option>Legal</option>
+                            <option>Management</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="edit-manager-fields" class="hidden space-y-6">
+                    <div class="p-4 bg-primary/5 rounded-2xl border border-primary/10">
+                        <p id="edit-mgr-display-name" class="font-bold text-primary"></p>
+                        <p id="edit-mgr-display-email" class="text-xs text-outline"></p>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Managed Department</label>
+                        <select id="mgr-dept-edit" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20">
+                            <option>Engineering</option>
+                            <option>Design</option>
+                            <option>Operations</option>
+                            <option>Legal</option>
+                            <option>Management</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pt-6 flex gap-3">
+                    <button id="cancel-mgr-btn" type="button" class="flex-1 bg-surface-container-high text-on-surface font-bold py-4 rounded-2xl border border-outline-variant/30 hover:bg-white transition-all">Cancel</button>
+                    <button type="submit" class="flex-[2] signature-gradient text-white font-bold py-4 rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">Save Manager</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-8 pt-4 bg-white/90 backdrop-blur-xl border-t border-outline-variant/10 z-50 rounded-t-[32px] shadow-[0_-8px_32px_rgba(0,0,0,0.05)]">
+        <a href="home.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Home</span>
+        </a>
+        <a href="employees.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">badge</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Team</span>
+        </a>
+        <a href="assets.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">inventory_2</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Assets</span>
+        </a>
+        <a href="mapping.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">map</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Mapping</span>
+        </a>
+        <a href="reports.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">analytics</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Reports</span>
+        </a>
+    </nav>
+
+    <script src="main.js"></script>
+    <script>
+        const modal = document.getElementById('manager-modal');
+        const form = document.getElementById('manager-form');
+        const modalTitle = document.getElementById('modal-title');
+        const tableBody = document.getElementById('manager-table-body');
+        const paginationInfo = document.getElementById('pagination-info');
+
+        let allManagers = [];
+        let allEmployees = [];
+        let allDepartments = [];
+
+        async function loadInitialData() {
+            try {
+                const [managers, employees, departments] = await Promise.all([
+                    PA.apiRequest('/managers'),
+                    PA.apiRequest('/employees'),
+                    PA.apiRequest('/departments')
+                ]);
+                allManagers = managers;
+                allEmployees = employees;
+                allDepartments = departments;
+                renderManagers(managers);
+                populateEmployeeDropdown(employees, managers);
+                populateDepartmentDropdowns(departments);
+            } catch (err) {
+                console.error('Initial Load Error:', err);
+                PA.showNotification('Failed to synchronize registry data', 'error');
+            }
+        }
+
+        function populateDepartmentDropdowns(departments) {
+            const createDept = document.getElementById('mgr-dept');
+            const editDept = document.getElementById('mgr-dept-edit');
+            
+            const options = departments.map(d => `<option value="${d.name}">${d.name}</option>`).join('');
+            createDept.innerHTML = options;
+            editDept.innerHTML = options;
+        }
+
+        function populateEmployeeDropdown(employees, managers) {
+            const dropdown = document.getElementById('mgr-employee-id');
+            const managerEmpIds = managers.map(m => m.employeeId);
+            const availableEmployees = employees.filter(e => !managerEmpIds.includes(e.id || e._id));
+            
+            dropdown.innerHTML = '<option value="">Choose Employee...</option>';
+            availableEmployees.forEach(e => {
+                dropdown.innerHTML += `<option value="${e.id}">${e.name} (${e.email || 'No email'})</option>`;
+            });
+        }
+
+        function renderManagers(managers) {
+            tableBody.innerHTML = managers.map(mgr => {
+                const emp = mgr.employee || { name: 'Unknown', email: 'N/A' };
+                const mgrId = mgr.id || mgr._id;
+                return `
+                <tr class="hover:bg-surface-container-low/30 transition-colors group">
+                    <td class="py-4 px-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                                ${emp.name ? emp.name.split(' ').map(n=>n[0]).join('') : '?'}
+                            </div>
+                            <div class="font-bold text-sm">${emp.name}</div>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6 text-sm text-outline">${emp.email}</td>
+                    <td class="py-4 px-6 text-sm">${mgr.managedDepartment || '--'}</td>
+                    <td class="py-4 px-6 text-right">
+                        <div class="flex justify-end gap-2">
+                            <button data-id="${mgrId}" data-action="edit" class="mgr-action-btn p-2 rounded-lg hover:bg-primary/5 text-primary transition-colors">
+                                <span class="material-symbols-outlined text-lg pointer-events-none">edit</span>
+                            </button>
+                            <button data-id="${mgrId}" data-action="delete" class="mgr-action-btn p-2 rounded-lg hover:bg-error/5 text-error transition-colors">
+                                <span class="material-symbols-outlined text-lg pointer-events-none">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `}).join('');
+            paginationInfo.innerHTML = `<span class="text-xs text-outline font-medium">Tracking ${managers.length} manager identities</span>`;
+        }
+
+        window.editManager = (id) => {
+            console.log('Editing manager with ID:', id);
+            // Robust ID lookup using string casting to handle both text and integer IDs
+            const mgr = allManagers.find(m => String(m.id || m._id) === String(id));
+            if (!mgr) {
+                console.warn('Manager not found in local state for ID:', id);
+                return;
+            }
+
+            document.getElementById('mgr-id').value = id;
+            
+            // Show edit fields, hide create fields
+            document.getElementById('create-manager-fields').classList.add('hidden');
+            document.getElementById('edit-manager-fields').classList.remove('hidden');
+            
+            // Disable required on hidden creation field to prevent browser error
+            document.getElementById('mgr-employee-id').required = false;
+            
+            const emp = mgr.employee || { name: 'Unknown', email: 'N/A' };
+            document.getElementById('edit-mgr-display-name').innerText = emp.name;
+            document.getElementById('edit-mgr-display-email').innerText = emp.email || 'N/A';
+            document.getElementById('mgr-dept-edit').value = mgr.managedDepartment || (allDepartments[0]?.name || '');
+            
+            openModal('Edit Manager Registry');
+        };
+
+        window.deleteManager = async (id) => {
+            const confirmed = await PA.confirm('Are you sure you want to remove this manager? Note: Employees reporting to this manager will be affected.');
+            if (!confirmed) return;
+            try {
+                await PA.apiRequest(`/managers/${id}`, 'DELETE');
+                PA.showNotification('Manager removed from registry', 'success');
+                loadInitialData();
+            } catch (err) {
+                PA.showNotification(err.message, 'error');
+            }
+        };
+
+        function openModal(title) {
+            modalTitle.innerText = title;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            if (title.includes('Register')) {
+                document.getElementById('mgr-id').value = '';
+                document.getElementById('create-manager-fields').classList.remove('hidden');
+                document.getElementById('edit-manager-fields').classList.add('hidden');
+                // Re-enable required for creation
+                document.getElementById('mgr-employee-id').required = true;
+                populateEmployeeDropdown(allEmployees, allManagers);
+            }
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            form.reset();
+            document.getElementById('mgr-id').value = '';
+            // Reset required as a safety
+            document.getElementById('mgr-employee-id').required = true;
+        }
+
+        // Modal close bindings (CSP Compliant)
+        document.getElementById('register-mgr-btn').addEventListener('click', () => openModal('Register New Manager'));
+        document.getElementById('close-mgr-btn').addEventListener('click', closeModal);
+        document.getElementById('mgr-overlay').addEventListener('click', closeModal);
+        document.getElementById('cancel-mgr-btn').addEventListener('click', closeModal);
+
+        // Event Delegation for Table Actions
+        tableBody.addEventListener('click', (e) => {
+            const btn = e.target.closest('.mgr-action-btn');
+            if (btn) {
+                const id = btn.getAttribute('data-id');
+                const action = btn.getAttribute('data-action');
+                if (action === 'edit') editManager(id);
+                if (action === 'delete') deleteManager(id);
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('mgr-id').value;
+            let payload = {};
+            
+            if (id) {
+                payload = { 
+                    managedDepartment: document.getElementById('mgr-dept-edit').value 
+                };
+            } else {
+                const empId = document.getElementById('mgr-employee-id').value;
+                if (!empId) {
+                    PA.showNotification('Please select an employee to promote', 'error');
+                    return;
+                }
+                payload = { 
+                    employeeId: empId,
+                    managedDepartment: document.getElementById('mgr-dept').value
+                };
+            }
+
+            try {
+                if (id) {
+                    await PA.apiRequest(`/managers/${id}`, 'PUT', payload);
+                    PA.showNotification('Manager profile updated', 'success');
+                } else {
+                    await PA.apiRequest('/managers', 'POST', payload);
+                    PA.showNotification('Manager registered successfully', 'success');
+                }
+                closeModal();
+                loadInitialData();
+            } catch (err) {
+                PA.showNotification(err.message, 'error');
+            }
+        });
+
+        loadInitialData();
+    </script>
+</body>
+</html>

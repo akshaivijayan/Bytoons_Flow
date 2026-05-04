@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Asset Mapping | Bytoons Flow</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#004596',
+                        'primary-container': '#005cc3',
+                        'on-primary': '#ffffff',
+                        'background': '#f7f9fb',
+                        'surface-container-low': '#f2f4f6',
+                        'on-surface': '#191c1e',
+                        'tertiary': '#004f61',
+                        'tertiary-fixed': '#b3ebff',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Local Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .nav-item.active {
+            background: rgba(0, 69, 150, 0.1);
+            color: var(--primary);
+        }
+        .pool-tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 69, 150, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen pb-32">
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-outline-variant/10 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-2xl">architecture</span>
+            <h1 class="text-xl text-primary font-extrabold tracking-tighter">Bytoons Flow</h1>
+        </div>
+        <button id="logout-btn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-error/10 transition-colors text-primary border border-primary/20">
+            <span class="material-symbols-outlined">logout</span>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-12 max-w-7xl mx-auto space-y-10 animate-fade-in">
+        <section class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="space-y-1">
+                <p class="text-[10px] uppercase tracking-widest text-primary font-bold font-label">Relational Intelligence</p>
+                <h2 class="text-3xl font-extrabold tracking-tight">Asset Mapping</h2>
+            </div>
+            <div class="bg-surface-container-low p-2 rounded-2xl flex gap-2">
+                <button id="create-map-btn" class="signature-gradient text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg shadow-primary/20 flex items-center gap-2 hover:scale-105 transition-all">
+                    <span class="material-symbols-outlined text-sm">add_link</span>
+                    Create Mapping
+                </button>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Source Assets (Optimized Pool) -->
+            <div class="lg:col-span-1 flex flex-col space-y-6">
+                <div class="flex flex-col space-y-4">
+                    <div class="flex items-center justify-between px-2">
+                        <h3 class="font-bold text-lg flex items-center gap-2">
+                            <span class="material-symbols-outlined text-tertiary">inventory_2</span>
+                            Available Pool
+                        </h3>
+                        <span id="available-count" class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tight">-- Items</span>
+                    </div>
+                    
+                    <!-- Search & Filter Bar -->
+                    <div class="space-y-3">
+                        <div class="relative group">
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+                            <input type="text" id="pool-search" placeholder="Search by name or serial..." class="w-full bg-white border border-outline-variant/20 rounded-2xl py-3 pl-12 pr-4 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-sm font-medium">
+                        </div>
+                        <div id="category-tabs" class="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+                            <button data-category="all" class="pool-tab active flex-shrink-0 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-surface-container-low text-outline hover:bg-surface-container-high transition-all">All</button>
+                            <button data-category="LAPTOP" class="pool-tab flex-shrink-0 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-surface-container-low text-outline hover:bg-surface-container-high transition-all">Laptops</button>
+                            <button data-category="MOBILE" class="pool-tab flex-shrink-0 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-surface-container-low text-outline hover:bg-surface-container-high transition-all">Mobile</button>
+                            <button data-category="NETWORK" class="pool-tab flex-shrink-0 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-surface-container-low text-outline hover:bg-surface-container-high transition-all">Network</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scrollable Container -->
+                <div class="relative flex-1">
+                    <div id="available-pool" class="space-y-3 max-h-[65vh] overflow-y-auto pr-2 custom-scrollbar">
+                        <p class="text-xs text-outline italic px-2">Synchronizing hardware vault...</p>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-background to-transparent pointer-events-none"></div>
+                </div>
+            </div>
+
+            <!-- Mapping Grid -->
+            <div class="lg:col-span-2 space-y-4">
+                <div class="flex items-center justify-between px-2">
+                    <h3 class="font-bold text-lg flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">hub</span>
+                        Active Mappings
+                    </h3>
+                </div>
+                <div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/10 shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-surface-container-low/50">
+                                    <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Employee</th>
+                                    <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Linked Asset</th>
+                                    <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="active-mappings" class="divide-y divide-outline-variant/10">
+                                <!-- Dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical Assignment Ledger -->
+        <div class="space-y-4">
+            <div class="flex items-center justify-between px-2 pt-6 border-t border-outline-variant/10">
+                <h3 class="font-bold text-lg flex items-center gap-2">
+                    <span class="material-symbols-outlined text-tertiary">history_edu</span>
+                    Relational Lifecycle Ledger
+                </h3>
+                <span class="text-[10px] text-outline font-black uppercase tracking-widest bg-surface-container-low px-3 py-1 rounded-full">Historical Audit Trail</span>
+            </div>
+            <div class="bg-white rounded-[32px] overflow-hidden border border-outline-variant/10 shadow-sm">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-surface-container-low/50">
+                                <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Entity / Recipient</th>
+                                <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Asset / Hardware</th>
+                                <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Timeline</th>
+                                <th class="py-5 px-6 text-[10px] uppercase tracking-widest text-outline font-black">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-ledger" class="divide-y divide-outline-variant/10">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mapping Overlay Modal -->
+    <div id="mapping-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div id="map-overlay" class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-lg max-h-[90vh] bg-white rounded-[40px] shadow-2xl overflow-hidden animate-fade-in flex flex-col">
+            <header class="p-8 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30 shrink-0">
+                <div>
+                    <h3 class="text-2xl font-black tracking-tight text-primary">Establish Asset Mapping</h3>
+                    <p class="text-xs text-outline font-bold uppercase tracking-widest mt-1">Lifecycle Assignment Protocol</p>
+                </div>
+                <button id="close-map-btn" class="w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </header>
+            <form id="mapping-form" class="p-8 space-y-6 overflow-y-auto custom-scrollbar flex-1">
+                <div class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Target Hardware</label>
+                        <select id="map-asset-id" class="w-full bg-surface-container-low border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-primary/20 font-bold" required>
+                            <option value="">Choose Available Asset...</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Recipient Employee</label>
+                        <select id="map-employee-id" class="w-full bg-surface-container-low border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-primary/20 font-bold" required>
+                            <option value="">Choose Active Personnel...</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Activation Date</label>
+                        <input type="date" id="map-date" class="w-full bg-surface-container-low border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-primary/20 font-bold" required>
+                    </div>
+                </div>
+                <div class="pt-6 flex gap-4">
+                    <button id="cancel-map-btn" type="button" class="flex-1 bg-surface-container-high text-on-surface font-black py-5 rounded-2xl border border-outline-variant/30 hover:bg-white transition-all text-sm uppercase tracking-widest">Cancel</button>
+                    <button type="submit" class="flex-[2] signature-gradient text-white font-black py-5 rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-widest">
+                        <span class="material-symbols-outlined">link</span>
+                        Establish Link
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-8 pt-4 bg-white/90 backdrop-blur-xl border-t border-outline-variant/10 z-50 rounded-t-[32px] shadow-[0_-8px_32px_rgba(0,0,0,0.05)]">
+        <a href="home.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Home</span>
+        </a>
+        <a href="employees.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">badge</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Team</span>
+        </a>
+        <a href="assets.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">inventory_2</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Assets</span>
+        </a>
+        <a href="mapping.html" class="nav-item active flex flex-col items-center justify-center px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Mapping</span>
+        </a>
+        <a href="reports.html" class="nav-item flex flex-col items-center justify-center text-outline hover:text-primary px-6 py-2 rounded-2xl transition-all">
+            <span class="material-symbols-outlined">analytics</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Reports</span>
+        </a>
+    </nav>
+
+    <script src="main.js"></script>
+    <script>
+        let allAssets = [];
+        let allEmployees = [];
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        async function loadMappings() {
+            try {
+                const [assets, employees] = await Promise.all([
+                    PA.apiRequest('/assets'),
+                    PA.apiRequest('/employees')
+                ]);
+                allAssets = assets;
+                allEmployees = employees;
+                
+                renderAvailablePool();
+                renderActiveMappings(assets.filter(a => a.assignedTo));
+                loadHistory(); 
+                populateSelectors(assets, employees);
+            } catch (err) {
+                console.error('Failed to load mapping data');
+                PA.showNotification('Failed to synchronize relational registry', 'error');
+            }
+        }
+
+        function populateSelectors(assets, employees) {
+            const assetSelect = document.getElementById('map-asset-id');
+            const empSelect = document.getElementById('map-employee-id');
+            
+            const availableAssets = assets.filter(a => a.assetStatus === 'AVAILABLE');
+            const activeEmployees = employees.filter(e => e.status === 'ACTIVE');
+
+            assetSelect.innerHTML = '<option value="">Choose Available Asset...</option>' + 
+                availableAssets.map(a => `<option value="${a.id}">${a.assetName} (SN: ${a.serialNumber})</option>`).join('');
+            
+            empSelect.innerHTML = '<option value="">Choose Active Personnel...</option>' + 
+                activeEmployees.map(e => `<option value="${e.id}">${e.name} (${e.department})</option>`).join('');
+
+            const dateInput = document.getElementById('map-date');
+            if (dateInput) dateInput.valueAsDate = new Date();
+        }
+
+        function renderAvailablePool() {
+            const container = document.getElementById('available-pool');
+            
+            // Apply Filters
+            let filtered = allAssets.filter(a => a.assetStatus === 'AVAILABLE');
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(a => a.assetCategory === currentFilter);
+            }
+            if (searchQuery) {
+                const q = searchQuery.toLowerCase();
+                filtered = filtered.filter(a => 
+                    a.assetName.toLowerCase().includes(q) || 
+                    a.serialNumber.toLowerCase().includes(q) ||
+                    (a.assetId && a.assetId.toLowerCase().includes(q))
+                );
+            }
+
+            document.getElementById('available-count').innerText = `${filtered.length} Items`;
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="py-12 flex flex-col items-center justify-center text-center space-y-3 opacity-60">
+                        <span class="material-symbols-outlined text-4xl text-outline">search_off</span>
+                        <p class="text-xs text-outline font-bold uppercase tracking-widest">No matching hardware</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(asset => `
+                <div data-id="${asset.id || asset._id}" class="available-asset-card glass-card p-4 rounded-2xl border border-outline-variant/10 hover:border-primary/30 transition-all cursor-pointer group bg-white shadow-sm hover:shadow-md">
+                    <div class="flex justify-between items-start mb-3 pointer-events-none">
+                        <span class="px-2 py-1 rounded bg-surface-container-low text-[9px] font-black text-outline uppercase tracking-wider">${asset.assetCategory}</span>
+                        <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-sm">link</span>
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-sm text-on-surface truncate">${asset.assetName}</h4>
+                        <p class="text-[10px] text-outline font-bold tracking-tight">SN: ${asset.serialNumber}</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-outline-variant/5 flex justify-between items-center">
+                        <span class="text-[9px] text-primary font-black uppercase tracking-widest">${asset.assetId || 'AST-XXXXX'}</span>
+                        <span class="text-primary text-[10px] font-black flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                            ASSIGN <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.filterByCategory = (cat) => {
+            currentFilter = cat;
+            document.querySelectorAll('.pool-tab').forEach(btn => {
+                const btnText = btn.innerText.toLowerCase();
+                const isActive = (cat === 'all' && btnText === 'all') || 
+                                (cat === 'LAPTOP' && btnText.includes('laptop')) ||
+                                (cat === 'MOBILE' && btnText.includes('mobile')) ||
+                                (cat === 'NETWORK' && btnText.includes('network'));
+                btn.classList.toggle('active', isActive);
+            });
+            renderAvailablePool();
+        };
+
+        document.getElementById('pool-search').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderAvailablePool();
+        });
+
+        function renderActiveMappings(assets) {
+            const container = document.getElementById('active-mappings');
+            
+            if (assets.length === 0) {
+                container.innerHTML = '<tr><td colspan="3" class="py-12 text-center text-xs text-outline italic font-bold">No active hardware assignments recorded</td></tr>';
+                return;
+            }
+
+            container.innerHTML = assets.map(asset => {
+                const emp = asset.assignedTo;
+                const initials = emp.name ? emp.name.split(' ').map(n=>n[0]).join('') : '??';
+                return `
+                    <tr class="hover:bg-surface-container-low/30 transition-colors">
+                        <td class="py-4 px-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-black text-primary text-xs border border-primary/20">${initials}</div>
+                                <div>
+                                    <div class="font-bold text-sm text-on-surface">${emp.name || 'Unknown'}</div>
+                                    <div class="text-[10px] text-outline font-bold uppercase tracking-widest">${emp.department || 'Staff'}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-4 px-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary">
+                                    <span class="material-symbols-outlined text-sm">${getCategoryIcon(asset.assetCategory)}</span>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-sm text-on-surface">${asset.assetName}</div>
+                                    <div class="text-[10px] text-primary font-black tracking-wider uppercase">SN: ${asset.serialNumber}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-4 px-6 text-right">
+                            <button data-id="${asset.id || asset._id}" class="revoke-btn px-5 py-2 rounded-2xl border border-error/20 text-error text-[10px] font-black uppercase tracking-widest hover:bg-error hover:text-white transition-all hover:scale-105 active:scale-95 shadow-sm">Revoke Linked Access</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function getCategoryIcon(cat) {
+            switch(cat?.toUpperCase()) {
+                case 'LAPTOP': return 'laptop_mac';
+                case 'MOBILE': return 'smartphone';
+                case 'NETWORK': return 'hub';
+                default: return 'inventory_2';
+            }
+        }
+
+        async function loadHistory() {
+            try {
+                const history = await PA.apiRequest('/mapping/history');
+                const container = document.getElementById('history-ledger');
+                
+                if (history.length === 0) {
+                    container.innerHTML = '<tr><td colspan="4" class="py-12 text-center text-xs text-outline italic font-bold">No historical transactions on record</td></tr>';
+                    return;
+                }
+
+                container.innerHTML = history.map(record => {
+                    const status = record.returnDate ? 'RETURNED' : 'CURRENT';
+                    const dateRange = record.returnDate 
+                        ? `${PA.formatDate(record.assignedDate)} — ${PA.formatDate(record.returnDate)}`
+                        : `${PA.formatDate(record.assignedDate)} — Present`;
+
+                    return `
+                        <tr class="hover:bg-surface-container-low/30 transition-colors group">
+                            <td class="py-4 px-6">
+                                <div class="font-bold text-sm text-on-surface">${record.employee?.name || 'Unknown'}</div>
+                                <div class="text-[10px] text-outline font-bold uppercase tracking-widest">${record.employee?.department || 'Staff'}</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="font-bold text-sm text-on-surface">${record.asset?.name || 'Asset'}</div>
+                                <div class="text-[10px] text-outline font-black uppercase tracking-tighter">SN: ${record.asset?.serial || 'N/A'}</div>
+                            </td>
+                            <td class="py-4 px-6 text-[10px] font-black text-outline uppercase tracking-widest">
+                                ${dateRange}
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-tighter ${status === 'CURRENT' ? 'bg-primary/10 text-primary' : 'bg-outline/10 text-outline'}">
+                                    ${status}
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('History failed:', err);
+                document.getElementById('history-ledger').innerHTML = '<tr><td colspan="4" class="py-8 text-center text-error text-[10px] font-bold">LIFECYCLE DATA SYNC FAILED</td></tr>';
+            }
+        }
+
+        window.openMappingModal = (assetId) => {
+            const modal = document.getElementById('mapping-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            if (assetId) {
+                // Ensure ID is cast to string for select matching
+                document.getElementById('map-asset-id').value = String(assetId);
+            }
+        };
+
+        function closeMappingModal() {
+            const modal = document.getElementById('mapping-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            document.getElementById('mapping-form').reset();
+            document.getElementById('map-date').valueAsDate = new Date();
+        }
+
+        // Global Action Bindings (CSP Compliant)
+        document.getElementById('create-map-btn').addEventListener('click', () => openMappingModal());
+        document.getElementById('close-map-btn').addEventListener('click', closeMappingModal);
+        document.getElementById('map-overlay').addEventListener('click', closeMappingModal);
+        document.getElementById('cancel-map-btn').addEventListener('click', closeMappingModal);
+
+        // Category Tab Listeners
+        document.getElementById('category-tabs').addEventListener('click', (e) => {
+            const btn = e.target.closest('.pool-tab');
+            if (btn) {
+                filterByCategory(btn.getAttribute('data-category'));
+            }
+        });
+
+        // Event Delegation for Active Mappings (Revoke)
+        document.getElementById('active-mappings').addEventListener('click', (e) => {
+            const btn = e.target.closest('.revoke-btn');
+            if (btn) {
+                revokeMapping(btn.getAttribute('data-id'));
+            }
+        });
+
+        // Event Delegation for Available Pool (Mapping)
+        document.getElementById('available-pool').addEventListener('click', (e) => {
+            const card = e.target.closest('.available-asset-card');
+            if (card) {
+                openMappingModal(card.getAttribute('data-id'));
+            }
+        });
+
+        window.revokeMapping = async (assetId) => {
+            const confirmed = await PA.confirm('Are you sure you want to revoke this asset assignment? The hardware will return to the available hardware pool immediately.');
+            if (!confirmed) return;
+            try {
+                await PA.apiRequest(`/assets/${assetId}`, 'PUT', {
+                    assetStatus: 'AVAILABLE',
+                    assignedTo: null,
+                    checkOutDate: null
+                });
+                PA.showNotification('Relational link revoked successfully', 'success');
+                loadMappings();
+            } catch (err) {
+                PA.showNotification(err.message, 'error');
+            }
+        };
+
+        document.getElementById('mapping-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const assetId = document.getElementById('map-asset-id').value;
+            const employeeId = document.getElementById('map-employee-id').value;
+            const checkOutDate = document.getElementById('map-date').value;
+
+            try {
+                await PA.apiRequest(`/assets/${assetId}`, 'PUT', {
+                    assetStatus: 'IN USE',
+                    assignedTo: employeeId,
+                    checkOutDate: checkOutDate
+                });
+                PA.showNotification('Hardware assignment successful. Relational mapping updated.', 'success');
+                closeMappingModal();
+                loadMappings();
+            } catch (err) {
+                PA.showNotification(err.message, 'error');
+            }
+        });
+
+        loadMappings();
+    </script>
+</body>
+</html>
